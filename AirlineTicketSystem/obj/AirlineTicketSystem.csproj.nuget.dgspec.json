@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Project\\RiderJB\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj": {}
+    "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj": {}
   },
   "projects": {
-    "F:\\Project\\RiderJB\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj": {
+    "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Project\\RiderJB\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
+        "projectUniqueName": "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
         "projectName": "AirlineTicketSystem",
-        "projectPath": "F:\\Project\\RiderJB\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
+        "projectPath": "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
         "packagesPath": "C:\\Users\\sieud\\.nuget\\packages\\",
-        "outputPath": "F:\\Project\\RiderJB\\AirlineTicketSystem\\AirlineTicketSystem\\obj\\",
+        "outputPath": "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sieud\\AppData\\Roaming\\NuGet\\NuGet.Config"
