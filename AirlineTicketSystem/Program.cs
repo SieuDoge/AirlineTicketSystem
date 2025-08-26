@@ -1,4 +1,4 @@
-﻿cocaiconcachahahah// See https://aka.ms/new-console-template for more information
+﻿// See https://aka.ms/new-console-template for more information
 
 Console.WriteLine("Hello, World!");
-Console.WriteLine("Huynh chim ngắn");
+Console.WriteLine("Huy chim ngắn");
