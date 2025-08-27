@@ -1,5 +1,5 @@
 namespace AirlineTicketSystem;
-
+//thấy chưa
 public class Passenger
 {
     private string name ="";
