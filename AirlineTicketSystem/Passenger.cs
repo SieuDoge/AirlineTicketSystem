@@ -97,7 +97,7 @@ public class Passenger
     }
     public string inforstudent()
     {
-        return $"Name: {Name}, Email: {Email}, Phone Number: {PhoneNumber};
+        return $"Name: {Name}, Email: {Email}, Phone Number: {PhoneNumber}";
     }
     // Other methods and properties can be added as needed
 }

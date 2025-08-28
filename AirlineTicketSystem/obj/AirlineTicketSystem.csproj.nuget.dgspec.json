@@ -1,19 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< Updated upstream
-    "C:\\Users\\Chung\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\Chung\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Chung\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
-        "projectName": "AirlineTicketSystem",
-        "projectPath": "C:\\Users\\Chung\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
-        "packagesPath": "C:\\Users\\Chung\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Chung\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\obj\\",
-=======
     "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj": {}
   },
   "projects": {
@@ -25,16 +12,9 @@
         "projectPath": "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
         "packagesPath": "C:\\Users\\sieud\\.nuget\\packages\\",
         "outputPath": "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\obj\\",
->>>>>>> Stashed changes
         "projectStyle": "PackageReference",
         "configFilePaths": [
-<<<<<<< Updated upstream
-          "C:\\Users\\Chung\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-=======
           "C:\\Users\\sieud\\AppData\\Roaming\\NuGet\\NuGet.Config"
->>>>>>> Stashed changes
         ],
         "originalTargetFrameworks": [
           "net9.0"
