@@ -1,7 +1,7 @@
 namespace AirlineTicketSystem;
 
 
-public class Flights
+public class Flight
 {
     // Thuộc tính (private fields)
     private string flightNumber;
