@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "qnJNj8Um1i4=",
   "success": true,
   "projectFilePath": "C:\\Users\\Chung\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
+=======
+  "dgSpecHash": "RojAvqbIups=",
+  "success": true,
+  "projectFilePath": "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
+>>>>>>> Stashed changes
   "expectedPackageFiles": [],
   "logs": []
 }
