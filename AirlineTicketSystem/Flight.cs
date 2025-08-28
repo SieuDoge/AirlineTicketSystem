@@ -1,45 +1,6 @@
 namespace AirlineTicketSystem;
-﻿namespace AirlineTicketSystem;
-
-public class Flight
-{
-    1234567890-
-    static void Main(string[] args)
-    {
-        Console.OutputEncoding = Encoding.UTF8;
-        bool next = true;
-        while (next)
-        {
-            Console.WriteLine("Enter flight number: ");
-            string fightNumber = Console.ReadLine();
-            Console.WriteLine("Enter departure location: ");
-            string departure = Console.ReadLine();
-            Console.WriteLine("Enter destination: ");
-            string destination = Console.ReadLine();
-            Console.WriteLine("Enter departure time: ");
-            DateTime destinationTime = DateTime.Now; //lấy thời gian hiện tại bỏ vào class flight 
-            Console.ReadLine(); //  cho người nhập đại  vào đây 
-            Console.WriteLine("Enter available seats: ");
-            int availableSeats = int.Parse(Console.ReadLine());
-            Flights bay = new Flights(fightNumber, departure, destination, DateTime.Now, availableSeats);
-            bay.Print();
-
-            Console.Write("\nDo you want to continue? (Y/N): ");
-            string answer = Console.ReadLine();
-            if (answer.ToUpper() != "Y")
-            {
-                next = false;
-            }
-            else
-            {
-                next = true;
-            }
 
 
-
-        }
-    }
-}
 public class Flights
 {
     // Thuộc tính (private fields)
