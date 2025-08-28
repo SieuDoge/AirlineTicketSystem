@@ -2,9 +2,9 @@ namespace AirlineTicketSystem;
 //thấy chưa
 public class Passenger
 {
-    private string name = "";
-    private string email = "";
-    private string phoneNumber = "";
+    private string name ="";
+    private string email="";
+    private string phoneNumber="";
     private char gender;
     private int age;
 
