@@ -8,11 +8,7 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = AirlineTicketSystem
-<<<<<<< HEAD
-build_property.ProjectDir = C:\Users\Chung\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineTicketSystem\
-=======
-build_property.ProjectDir = F:\Project\OOP-Project\AirlineTicketSystem\AirlineTicketSystem\
->>>>>>> 634c9be5d3a0e004d8af2fabbed6e1a0bdb8e440
+build_property.ProjectDir = C:\Users\Quoc Cuong\Documents\GitHub\AirlineTicketSystem\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.EffectiveAnalysisLevelStyle = 9.0

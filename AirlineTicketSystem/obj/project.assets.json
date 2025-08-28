@@ -8,23 +8,23 @@
     "net9.0": []
   },
   "packageFolders": {
-    "C:\\Users\\HUY\\.nuget\\packages\\": {},
+    "C:\\Users\\Quoc Cuong\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\HUY\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
+      "projectUniqueName": "C:\\Users\\Quoc Cuong\\Documents\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
       "projectName": "AirlineTicketSystem",
-      "projectPath": "C:\\Users\\HUY\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
-      "packagesPath": "C:\\Users\\HUY\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\HUY\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\obj\\",
+      "projectPath": "C:\\Users\\Quoc Cuong\\Documents\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem.csproj",
+      "packagesPath": "C:\\Users\\Quoc Cuong\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Quoc Cuong\\Documents\\GitHub\\AirlineTicketSystem\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\HUY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Quoc Cuong\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
