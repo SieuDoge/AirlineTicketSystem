@@ -1,0 +1,5 @@
+C:\Users\HUY\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineTicketSystem\obj\Debug\net9.0\AirlineTicketSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HUY\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineTicketSystem\obj\Debug\net9.0\AirlineTicketSystem.AssemblyInfoInputs.cache
+C:\Users\HUY\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineTicketSystem\obj\Debug\net9.0\AirlineTicketSystem.AssemblyInfo.cs
+C:\Users\HUY\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineTicketSystem\obj\Debug\net9.0\AirlineTicketSystem.csproj.CoreCompileInputs.cache
+C:\Users\HUY\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineTicketSystem\obj\Debug\net9.0\AirlineTicketSystem.sourcelink.json
