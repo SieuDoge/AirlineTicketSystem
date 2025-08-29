@@ -11,7 +11,7 @@ public class Flight
     private int availableSeats;
 
     // Constructor
-    public Flights(string flightNumber, string departure, string destination, DateTime departureTime, int seats)
+    public Flight(string flightNumber, string departure, string destination, DateTime departureTime, int seats)
     {
         this.flightNumber = flightNumber;
         this.departure = departure;
