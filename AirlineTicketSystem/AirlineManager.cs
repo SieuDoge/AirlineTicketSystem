@@ -68,9 +68,15 @@ public class AirlineManager
     {
         try
         {
-            using StreamReader sr = new(filename)
+            if (!File.Exists(filename))
             {
-                
+                throw new FileNotFoundException("File not found", filename);
+            }
+            using StreamReader sr = new StreamReader(filename);
+            string Headerline = sr.ReadLine();
+            if (Headerline == null)
+            {
+                throw new ArgumentException("File Data can't be Empty");
             }
         }
         catch
