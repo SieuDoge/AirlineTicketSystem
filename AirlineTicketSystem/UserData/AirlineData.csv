@@ -1,1 +1,2 @@
-ticketID,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureTime (yyyy:MM:dd HH:mm:ss),AvailableSeats,TicketType,Price
+ticketID,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureTime (yyyy-MM-dd HH:mm),AvailableSeats,TicketType,Price
+123,Huynh,sieudoge0@gmail.com,0816657483,m,19,VN123,SG,DL,2000-12-12 10:10,100,e,100
