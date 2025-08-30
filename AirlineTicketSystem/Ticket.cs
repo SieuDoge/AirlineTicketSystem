@@ -7,15 +7,14 @@ public class Ticket
     private string ticketId;
     private double ticketPrice;
     private char ticketType;
-    private string flight;
     private string passengerPhone;
-    public Ticket(string ticketId, string flight, double ticketPrice, char ticketType, string passengerPhone)
+    public Ticket(string ticketId, double ticketPrice, char ticketType, string passengerPhone)
     {
         Random rnd = new Random();
-        this.ticketId = "TK" + rnd.Next(100, 99999);
+        /*this.ticketId = "TK" + rnd.Next(100, 99999);*/
+        this.ticketId = ticketId;
         this.ticketPrice = ticketPrice;
         this.ticketType = ticketType;
-        this.flight = flight;
         this.passengerPhone = passengerPhone;
 
     }
