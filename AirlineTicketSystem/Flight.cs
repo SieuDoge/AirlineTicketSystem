@@ -13,13 +13,38 @@ public class Flight
     // Constructor
     public Flight(string flightNumber, string departure, string destination, DateTime departureTime, int seats)
     {
+        if (string.IsNullOrWhiteSpace(flightNumber))
+        this.flightNumber = "UNKNOWN"; // không nhập mà enter sẽ ra Unknown 
+    else
         this.flightNumber = flightNumber;
-        this.departure = departure;
-        this.destination = destination;
-        this.departureTime = departureTime;
-        this.availableSeats = seats >= 0 ? seats : 0; // đảm bảo seats >= 0
-    }
 
+    // kiểm tra departure 
+    if (string.IsNullOrWhiteSpace(departure))
+        this.departure = "UNKNOWN";
+    else
+        this.departure = departure;
+
+    // kiểm tra destination 
+    if (string.IsNullOrWhiteSpace(destination))
+        this.destination = "UNKNOWN";
+    else
+        this.destination = destination;
+
+    // kiểm tra ko được nhỏ hơn thời gian hiên jtaij 
+    
+     if (departureTime < DateTime.Now)
+        this.departureTime = DateTime.Now;
+     else
+        this.departureTime = departureTime;
+    
+    // kiểm tra số ghế 
+    if (seats < 0)
+        this.availableSeats = 0;
+    else if (seats > 500)
+        this.availableSeats = 500;
+    else
+        this.availableSeats = seats;  // đảm bảo seats >= 0
+    }
 
 
 
