@@ -58,7 +58,7 @@ public class AirlineManager
             flights[i].Print();
         }
         Console.WriteLine($"Total: {flights.Count}");
-}
+    }
 
     public void showAllPassenger()
     {
@@ -181,17 +181,20 @@ public void ExportToExcel(string filename)
                         string FlightNumber = columns[6].Trim();
                         string Departure = columns[7].Trim();
                         string Destination =  columns[8].Trim();
-                        DateTime DepartureDate = Convert.ToDateTime(columns[9].Trim());
+                        DateTime departureDate = DateTime.Parse(columns[9].Trim());
                         int AvailableSeats = Convert.ToInt32(columns[10].Trim());
                         char TicketType = Convert.ToChar(columns[11]);
                         double Price = Convert.ToDouble(columns[12].Trim());
                     
+                        
                         Passenger addPassenger = new Passenger(Name, Email, Gender, Age, Phone);
                         passengers.Add(addPassenger);
-                        Flight addFlight = new Flight(FlightNumber, Departure, Destination, DepartureDate, AvailableSeats); 
-                        flights.Add(addFlight);
-                        Ticket addTicket = new Ticket(tickId, FlightNumber, Price, TicketType, Phone);
+                        
+                        Ticket addTicket = new Ticket(tickId, Price, TicketType, Phone);
                         tickets.Add(addTicket);
+                        
+                        Flight addFlight = new Flight(FlightNumber, Departure, Destination, departureDate, AvailableSeats); 
+                        flights.Add(addFlight);
 
                         importCount++;
                     }
@@ -200,7 +203,7 @@ public void ExportToExcel(string filename)
                         Console.WriteLine($"Skip line: {line}, Total skipped: {skip++}");
                     }
                 }
-                catch(Exception ex)
+                catch(FormatException ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
