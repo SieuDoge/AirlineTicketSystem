@@ -95,6 +95,14 @@ public class Passenger
         Gender = gender;
         Age = age;
     }
+    
+    public void Print() {
+        Console.WriteLine($"Name: {Name}" +
+                          $"Email: {Email}" +
+                          $"Phone: {PhoneNumber}" +
+                          $"Gender: {Gender}" +
+                          $"Age: {Age}");
+    }
 
     // Other methods and properties can be added as needed
 }

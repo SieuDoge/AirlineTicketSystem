@@ -1,1 +1,1 @@
-ticketID,Name,Email,Phone,Gender,Age,FlightNumber,Destination,DepartureTime (yyyy:MM:dd HH:mm:ss),AvailableSeats,TicketType,Price
+ticketID,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureTime (yyyy:MM:dd HH:mm:ss),AvailableSeats,TicketType,Price

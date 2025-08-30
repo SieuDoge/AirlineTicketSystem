@@ -8,15 +8,20 @@ public class Ticket
     private double ticketPrice;
     private char ticketType;
     private string flight;
-    public Ticket(string ticketId, string flight, double ticketPrice, char ticketType)
+    private string passengerPhone;
+    public Ticket(string ticketId, string flight, double ticketPrice, char ticketType, string passengerPhone)
     {
         Random rnd = new Random();
         this.ticketId = "TK" + rnd.Next(100, 99999);
         this.ticketPrice = ticketPrice;
         this.ticketType = ticketType;
         this.flight = flight;
+        this.passengerPhone = passengerPhone;
 
     }
+    public string Flight { get; set; }
+    
+    public string PassengerPhone { get; set; }
     public string TicketId
     {
         get
@@ -65,6 +70,6 @@ public class Ticket
     }
 
     public void Print() {
-        Console.WriteLine($"Ticket {ticketId} - Flight {flight.GetFlightNumber()} - {ticketType} - {ticketPrice} USD");
+        Console.WriteLine($"Ticket {ticketId} - {ticketType} - {ticketPrice} USD");
     }
 }
