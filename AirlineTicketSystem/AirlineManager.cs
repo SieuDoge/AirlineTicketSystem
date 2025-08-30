@@ -72,13 +72,59 @@ public class AirlineManager
             {
                 throw new FileNotFoundException("File not found", filename);
             }
+
             using StreamReader sr = new StreamReader(filename);
+            // Bỏ qua tên cột
             string Headerline = sr.ReadLine();
             if (Headerline == null)
             {
                 throw new ArgumentException("File Data can't be Empty");
             }
-        }
+
+            string line;
+            int importCount = 0;
+            int skip = 0;
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] columns = line.Split(',');
+                try
+                {
+                    if (columns.Length <= 12)
+                    {
+                        string tickId = columns[0].Trim();
+                        string Name = columns[1].Trim();
+                        string Email = columns[2].Trim();
+                        string Phone = columns[3].Trim();
+                        char Gender = Convert.ToChar(columns[4]);
+                        int Age = Convert.ToInt32(columns[5].Trim());
+                        string FlightNumber = columns[6].Trim();
+                        string Departure = columns[7].Trim();
+                        string Destination =  columns[8].Trim();
+                        DateTime DepartureDate = Convert.ToDateTime(columns[9].Trim());
+                        int AvailableSeats = Convert.ToInt32(columns[10].Trim());
+                        char TicketType = Convert.ToChar(columns[11]);
+                        double Price = Convert.ToDouble(columns[12].Trim());
+                    
+                        Passenger addPassenger = new Passenger(Name, Email, Gender, Age, Phone);
+                        passengers.Add(addPassenger);
+                        Flight addFlight = new Flight(FlightNumber, Departure, Destination, DepartureDate, AvailableSeats); 
+                        flights.Add(addFlight);
+                        Ticket addTicket = new Ticket(tickId, FlightNumber, Price, TicketType);
+                        tickets.Add(addTicket);
+
+                        importCount++;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Skip line: {line}, Total skipped: {skip++}");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+    }
         catch
         {
             
