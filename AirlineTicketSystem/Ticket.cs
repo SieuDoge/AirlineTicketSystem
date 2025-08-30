@@ -7,15 +7,13 @@ public class Ticket
     private string ticketId;
     private double ticketPrice;
     private char ticketType;
-    private Passenger passenger;
-    private Flight flight;
-    public Ticket(string ticketId, Passenger passenger, Flight flight, double ticketPrice, char ticketType)
+    private string flight;
+    public Ticket(string ticketId, string flight, double ticketPrice, char ticketType)
     {
         Random rnd = new Random();
         this.ticketId = "TK" + rnd.Next(100, 99999);
         this.ticketPrice = ticketPrice;
         this.ticketType = ticketType;
-        this.passenger = passenger;
         this.flight = flight;
 
     }
@@ -55,7 +53,7 @@ public class Ticket
             }
             else
             {
-                throw new ArgumentException("Errol!");
+                throw new ArgumentException("Error!");
             }
         }
        
@@ -67,6 +65,6 @@ public class Ticket
     }
 
     public void Print() {
-        Console.WriteLine($"Ticket {ticketId}: {passenger.GetName()} - Flight {flight.GetFlightNumber()} - {ticketType} - {ticketPrice} USD");
+        Console.WriteLine($"Ticket {ticketId} - Flight {flight.GetFlightNumber()} - {ticketType} - {ticketPrice} USD");
     }
 }
