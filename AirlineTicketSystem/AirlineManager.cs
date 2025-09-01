@@ -96,11 +96,11 @@ public class AirlineManager
     }
 
     // Function ExportToExcel - Append data vào file CSV gốc
-    public void ExportToExcel(string filename)
+    public void ExportAirlineData(string filename)
     {
         try
         {
-            // Kiểm tra file có tồn tại không
+            
             if (!File.Exists(filename))
             {
                 // Tạo file mới với header nếu chưa có
@@ -110,7 +110,7 @@ public class AirlineManager
                 }
             }
 
-            // Append tất cả data hiện có vào cuối file
+            
             using (StreamWriter sw = new StreamWriter(filename, true)) // true = append
             {
                 int recordCount = 0;
@@ -212,7 +212,7 @@ public class AirlineManager
         {
             if (!File.Exists(filename))
             {
-                throw new FileNotFoundException("DataFlight.csv not found", filename);
+                throw new FileNotFoundException("FlightData.csv not found", filename);
             }
 
             using StreamReader sr = new StreamReader(filename);
