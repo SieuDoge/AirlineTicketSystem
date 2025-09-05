@@ -1,2 +1,1 @@
-TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,AvailableSeats,TicketType,Price
-TK209459,Huy,@2,0123456789,m,19,VN1234,SG,DL,2000-12-20 12:00,124,e,0
+TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price

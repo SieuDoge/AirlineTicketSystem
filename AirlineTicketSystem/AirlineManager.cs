@@ -24,11 +24,13 @@ public class AirlineManager
             throw new ArgumentNullException("flight can't be null");
         }
 
-        foreach (var exitsingFlight in flights)
+        // Check if flight already exists
+        foreach (var existingFlight in flights)
         {
-            if (exitsingFlight.GetFlightNumber == flight.GetFlightNumber)
+            if (existingFlight.GetFlightNumber() == flight.GetFlightNumber())
             {
                 Console.WriteLine("Flight already exists");
+                return; // Don't add duplicate
             }
         }
         flights.Add(flight);
@@ -40,26 +42,33 @@ public class AirlineManager
         {
             throw new ArgumentNullException("passenger can't be null");
         }
-        foreach (var exitsingPassenger in passengers)
+        
+        // Check if passenger already exists (by phone number)
+        foreach (var existingPassenger in passengers)
         {
-            if (exitsingPassenger.PhoneNumber == passenger.PhoneNumber)
+            if (existingPassenger.PhoneNumber == passenger.PhoneNumber)
             {
-                Console.WriteLine("Flight already exists");
+                Console.WriteLine("Passenger already exists");
+                return; // Don't add duplicate
             }
         }
         passengers.Add(passenger);
     }
+    
     public void addTicket(Ticket ticket)
     {
         if (ticket == null)
         {
             throw new ArgumentNullException("ticket can't be null");
         }
-        foreach (var exitsingTicketID in tickets)
+        
+        // Check if ticket already exists
+        foreach (var existingTicket in tickets)
         {
-            if (exitsingTicketID.TicketId == ticket.TicketId)
+            if (existingTicket.TicketId == ticket.TicketId)
             {
-                Console.WriteLine("Flight already exists");
+                Console.WriteLine("Ticket already exists");
+                return; // Don't add duplicate
             }
         }
         tickets.Add(ticket);
@@ -95,48 +104,47 @@ public class AirlineManager
         Console.WriteLine($"Total: {tickets.Count}");
     }
 
-    // Function ExportToExcel - Append data vào file CSV gốc
+    // Fixed ExportAirlineData - Only export complete booking records
     public void ExportAirlineData(string filename)
     {
         try
         {
-            
-            if (!File.Exists(filename))
+            using (StreamWriter sw = new StreamWriter(filename, false)) // false = overwrite
             {
-                // Tạo file mới với header nếu chưa có
-                using (StreamWriter sw = new StreamWriter(filename))
-                {
-                    sw.WriteLine("TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,AvailableSeats,TicketType,Price");
-                }
-            }
-
-            
-            using (StreamWriter sw = new StreamWriter(filename, true)) // true = append
-            {
-                int recordCount = 0;
-            
-                // Ghi tất cả tickets, passengers, flights hiện có
-                for (int i = 0; i < tickets.Count; i++)
-                {
-                    var ticket = tickets[i];
-                    var passenger = passengers[i]; 
-                    var flight = flights[i];
+                // Write header
+                sw.WriteLine("TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price");
                 
+                int recordCount = 0;
+                
+                // Only export tickets that have corresponding passengers and flights
+                foreach (var ticket in tickets)
+                {
+                    // Find passenger by phone number
+                    var passenger = passengers.FirstOrDefault(p => p.PhoneNumber == ticket.PassengerPhone);
+                    if (passenger == null) continue;
+                    
+                    // Find flight by flight number
+                    var flight = flights.FirstOrDefault(f => f.GetFlightNumber() == ticket.Flight);
+                    if (flight == null) continue;
+                    
+                    // Write complete record
                     sw.WriteLine($"{ticket.TicketId},{passenger.Name},{passenger.Email},{passenger.PhoneNumber}," +
                                  $"{passenger.Gender},{passenger.Age},{flight.GetFlightNumber()},{flight.GetDeparture()}," +
                                  $"{flight.GetDestination()},{flight.GetDepartureTime():yyyy-MM-dd HH:mm}," +
                                  $"{flight.GetAvailableSeats()},{ticket.TicketType},{ticket.TicketPrice}");
                     recordCount++;
                 }
-            
-                Console.WriteLine($"Đã thêm {recordCount} records vào file {filename}");
+                
+                Console.WriteLine($"Exported {recordCount} complete records to {filename}");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Export thất bại: {ex.Message}");
+            Console.WriteLine($"Export failed: {ex.Message}");
         }
     }
+    
+    // Fixed importFromExcel - Clear existing data and avoid duplicates
     public void importFormExcel(string filename)
     {
         try
@@ -146,17 +154,23 @@ public class AirlineManager
                 throw new FileNotFoundException("File not found", filename);
             }
 
+            // Clear existing data to avoid duplicates
+            flights.Clear();
+            passengers.Clear();
+            tickets.Clear();
+
             using StreamReader sr = new StreamReader(filename);
-            // Bỏ qua tên cột
-            string Headerline = sr.ReadLine();
-            if (Headerline == null)
+            // Skip header
+            string headerLine = sr.ReadLine();
+            if (headerLine == null)
             {
                 throw new ArgumentException("File Data can't be Empty");
             }
 
             string line;
             int importCount = 0;
-            int skip = 0;
+            int skipCount = 0;
+            
             while ((line = sr.ReadLine()) != null)
             {
                 string[] columns = line.Split(',');
@@ -164,62 +178,85 @@ public class AirlineManager
                 {
                     if (columns.Length >= 13)
                     {
-                        string tickId = columns[0].Trim();
-                        string Name = columns[1].Trim();
-                        string Email = columns[2].Trim();
-                        string Phone = columns[3].Trim();
-                        char Gender = Convert.ToChar(columns[4]);
-                        int Age = Convert.ToInt32(columns[5].Trim());
-                        string FlightNumber = columns[6].Trim();
-                        string Departure = columns[7].Trim();
-                        string Destination =  columns[8].Trim();
+                        string ticketId = columns[0].Trim();
+                        string name = columns[1].Trim();
+                        string email = columns[2].Trim();
+                        string phone = columns[3].Trim();
+                        char gender = Convert.ToChar(columns[4].Trim());
+                        int age = Convert.ToInt32(columns[5].Trim());
+                        string flightNumber = columns[6].Trim();
+                        string departure = columns[7].Trim();
+                        string destination = columns[8].Trim();
                         DateTime departureDate = DateTime.Parse(columns[9].Trim());
-                        int AvailableSeats = Convert.ToInt32(columns[10].Trim());
-                        char TicketType = Convert.ToChar(columns[11]);
-                        double Price = Convert.ToDouble(columns[12].Trim());
+                        int availableSeats = Convert.ToInt32(columns[10].Trim());
+                        char ticketType = Convert.ToChar(columns[11].Trim());
+                        double price = Convert.ToDouble(columns[12].Trim());
                     
+                        // Create and add passenger (check for duplicates)
+                        var existingPassenger = passengers.FirstOrDefault(p => p.PhoneNumber == phone);
+                        if (existingPassenger == null)
+                        {
+                            Passenger addPassenger = new Passenger(name, email, gender, age, phone);
+                            passengers.Add(addPassenger);
+                        }
                         
-                        Passenger addPassenger = new Passenger(Name, Email, Gender, Age, Phone);
-                        passengers.Add(addPassenger);
+                        // Create and add flight (check for duplicates)
+                        var existingFlight = flights.FirstOrDefault(f => f.GetFlightNumber() == flightNumber);
+                        if (existingFlight == null)
+                        {
+                            Flight addFlight = new Flight(flightNumber, departure, destination, departureDate, availableSeats);
+                            flights.Add(addFlight);
+                        }
                         
-                        Ticket addTicket = new Ticket(tickId, Price, TicketType, Phone);
-                        tickets.Add(addTicket);
-                        
-                        Flight addFlight = new Flight(FlightNumber, Departure, Destination, departureDate, AvailableSeats); 
-                        flights.Add(addFlight);
+                        // Create and add ticket (check for duplicates)
+                        var existingTicket = tickets.FirstOrDefault(t => t.TicketId == ticketId);
+                        if (existingTicket == null)
+                        {
+                            Ticket addTicket = new Ticket(ticketId, price, ticketType, phone);
+                            addTicket.Flight = flightNumber; // Link ticket to flight
+                            tickets.Add(addTicket);
+                        }
 
                         importCount++;
                     }
                     else
                     {
-                        Console.WriteLine($"Skip line: {line}, Total skipped: {skip++}");
+                        Console.WriteLine($"Skip line: {line}");
+                        skipCount++;
                     }
                 }
                 catch(FormatException ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine($"Error parsing line: {line} - {ex.Message}");
+                    skipCount++;
                 }
             }
+            
+            Console.WriteLine($"Imported {importCount} records, skipped {skipCount} lines from {filename}");
         }
         catch(Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Import failed: {ex.Message}");
         }
     }
+    
     public void ImportFlightsFromCSV(string filename)
     {
         try
         {
             if (!File.Exists(filename))
             {
-                throw new FileNotFoundException("FlightData.csv not found", filename);
+                Console.WriteLine($"Flight file {filename} not found, skipping...");
+                return;
             }
 
+
             using StreamReader sr = new StreamReader(filename);
-            string headerLine = sr.ReadLine(); // Bỏ qua header
+            string headerLine = sr.ReadLine(); // Skip header
         
             string line;
             int importCount = 0;
+            int skipCount = 0;
         
             while ((line = sr.ReadLine()) != null)
             {
@@ -234,24 +271,35 @@ public class AirlineManager
                         DateTime departureTime = DateTime.Parse(columns[3].Trim());
                         int availableSeats = Convert.ToInt32(columns[4].Trim());
                     
-                        Flight flight = new Flight(flightNumber, departure, destination, departureTime, availableSeats);
-                        addFlight(flight);
-                        importCount++;
+                        // Check for duplicates before adding
+                        var existingFlight = flights.FirstOrDefault(f => f.GetFlightNumber() == flightNumber);
+                        if (existingFlight == null)
+                        {
+                            Flight flight = new Flight(flightNumber, departure, destination, departureTime, availableSeats);
+                            flights.Add(flight);
+                            importCount++;
+                        }
+                        else
+                        {
+                            skipCount++;
+                        }
                     }
                 }
                 catch (FormatException ex)
                 {
                     Console.WriteLine($"Error parsing flight line: {line} - {ex.Message}");
+                    skipCount++;
                 }
             }
         
-            Console.WriteLine($"Imported {importCount} flights from {filename}");
+            Console.WriteLine($"Imported {importCount} flights, skipped {skipCount} duplicates from {filename}");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Import flights failed: {ex.Message}");
         }
     }
+    
     public void ImportTicketsFromCSV(string filename)
     {
         try
@@ -263,10 +311,11 @@ public class AirlineManager
             }
 
             using StreamReader sr = new StreamReader(filename);
-            string headerLine = sr.ReadLine(); // Bỏ qua header
+            string headerLine = sr.ReadLine(); // Skip header
         
             string line;
             int importCount = 0;
+            int skipCount = 0;
         
             while ((line = sr.ReadLine()) != null)
             {
@@ -280,24 +329,35 @@ public class AirlineManager
                         char ticketType = Convert.ToChar(columns[2].Trim());
                         string passengerPhone = columns[3].Trim();
                     
-                        Ticket ticket = new Ticket(ticketId, price, ticketType, passengerPhone);
-                        addTicket(ticket);
-                        importCount++;
+                        // Check for duplicates before adding
+                        var existingTicket = tickets.FirstOrDefault(t => t.TicketId == ticketId);
+                        if (existingTicket == null)
+                        {
+                            Ticket ticket = new Ticket(ticketId, price, ticketType, passengerPhone);
+                            tickets.Add(ticket);
+                            importCount++;
+                        }
+                        else
+                        {
+                            skipCount++;
+                        }
                     }
                 }
                 catch (FormatException ex)
                 {
                     Console.WriteLine($"Error parsing ticket line: {line} - {ex.Message}");
+                    skipCount++;
                 }
             }
         
-            Console.WriteLine($"Imported {importCount} tickets from {filename}");
+            Console.WriteLine($"Imported {importCount} tickets, skipped {skipCount} duplicates from {filename}");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Import tickets failed: {ex.Message}");
         }
     }
+    
     public void ExportFlightsToCSV(string filename)
     {
         try
@@ -320,6 +380,7 @@ public class AirlineManager
             Console.WriteLine($"Export flights failed: {ex.Message}");
         }
     }
+    
     public void ExportTicketsToCSV(string filename)
     {
         try
