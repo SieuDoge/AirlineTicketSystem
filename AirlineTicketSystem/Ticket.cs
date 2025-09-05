@@ -20,7 +20,7 @@ public class Ticket
     }
     public string Flight { get; set; }
     
-    public string PassengerPhone { get; set; }
+    public string PassengerPhone => passengerPhone;
     public string TicketId
     {
         get

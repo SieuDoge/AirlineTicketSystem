@@ -39,11 +39,11 @@ namespace AirlineTicketSystem
             try
             {
                 string flightFile =
-                    "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\UserData\\FlightData.csv";
+                    @"..\..\..\UserData\FlightData.csv";
                 string ticketFile =
-                    "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\UserData\\TicketData.csv";
+                    @"..\..\..\UserData\TicketData.csv";
                 string allDataFile =
-                    "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\UserData\\AirlineData.csv";
+                    @"..\..\..\UserData\AirlineData.csv";
 
                 airlineManager.ImportFlightsFromCSV(flightFile);
                 airlineManager.ImportTicketsFromCSV(ticketFile);
@@ -88,7 +88,6 @@ namespace AirlineTicketSystem
 
         Passenger newPassenger = new Passenger(name, email, gender, age, phoneNumber);
 
-        Console.WriteLine("\nFlight list: ");
         airlineManager.showAllFlight();
 
         Console.Write("\nEnter Flight Number: ");
@@ -132,6 +131,7 @@ namespace AirlineTicketSystem
 
         Ticket newTicket = new Ticket(ticketId, price, ticketType, phoneNumber);
         newTicket.Flight = selectedFlightNumber;
+                Console.WriteLine($"Ticket {newTicket.PassengerPhone}");
 
         if (selectedFlight.BookSeat())
         {
@@ -146,7 +146,7 @@ namespace AirlineTicketSystem
             Console.WriteLine("Flight Info:");
             selectedFlight.Print();
 
-            string dataDir = "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\UserData\\";
+            string dataDir = @"..\..\..\UserData";
             airlineManager.ExportAirlineData(Path.Combine(dataDir, "AirlineData.csv"));
             airlineManager.ExportTicketsToCSV(Path.Combine(dataDir, "TicketData.csv"));
             airlineManager.ExportFlightsToCSV(Path.Combine(dataDir, "FlightData.csv"));
