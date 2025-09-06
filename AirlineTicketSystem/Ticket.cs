@@ -1,144 +1,73 @@
-using System.Diagnostics.Contracts;
+using System;
 
-namespace AirlineTicketSystem;
-
-public abstract class Ticket
+namespace AirlineTicketSystem
 {
-    private string ticketId;
-    private double ticketPrice;
-    private char ticketType;
-    private string passengerPhone;
-    public Ticket(string ticketId, double ticketPrice, char ticketType, string passengerPhone)
+   
+    public abstract class Ticket
     {
-        Random rnd = new Random();
-        /*this.ticketId = "TK" + rnd.Next(100, 99999);*/
-        this.ticketId = ticketId;
-        this.ticketPrice = ticketPrice;
-        this.ticketType = ticketType;
-        this.passengerPhone = passengerPhone;
+        private string ticketId;
+        protected double ticketPrice; 
+        protected Passenger passenger;
+        protected Flight flight;
 
-    }
-    public string Flight { get; set; }
-    
-    public string PassengerPhone => passengerPhone;
-    public string TicketId
-    {
-        get
+        public Ticket(Passenger passenger, Flight flight, string ticketId , double ticketPrice)
         {
-            return ticketId;
-
+            Random rnd = new Random();
+            this.ticketId = "TK" + rnd.Next(100, 99999);
+            this.passenger = passenger;
+            this.flight = flight;
+            this.ticketPrice = CalculatePrice(); 
         }
-        set
-        {
-            ticketId = value;
 
-        }
-    }
-<<<<<<< HEAD
-    public abstract double TicketPrice() { }
-    
-
-    public abstract void Print() { }
-=======
-    public char TicketType
-    {
-        get { return ticketType; }
-        set
-        {
-            if (value == 'e' || value == 'f' || value == 'b')
-            {
-                ticketType = value;
-                switch (ticketType)
-                {
-                    case 'e':
-                        ticketPrice = 200;
-                        break;
-                    case 'b':
-                        ticketPrice = 400;
-                        break;
-                    case 'f':
-                        ticketPrice = 800;  
-                        break;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Error!");
-            }
-        }
->>>>>>> 724ded50c1bd196b6c78c252dbb606f0a1156d32
        
+        public string TicketId => ticketId;
+
+      
+        public double TicketPrice => ticketPrice;
+
+        
+        protected abstract double CalculatePrice();
+
+       
+       public abstract void Print() {}
+    }
+
     
-}
+    public class EconomyTicket : Ticket
+    {
+        public EconomyTicket(Passenger passenger, Flight flight) : base(passenger, flight) { }
 
-public class Economy:Ticket
-{
-    public EconomyTicket(Passenger passenger, Flight flight) : base(passenger,flight)
-    {
-        this.passenger = passenger;
-        this.flight = flight;
+        protected override double CalculatePrice() => 200;
 
-    }
-    public override double TicketPrice()
-    {
-        get {
-            return 200;
-        }
-        set{
-            ticketPrice = value;
+        public override void Print()
+        {
+            Console.WriteLine($"[Economy] {TicketId}: {passenger.GetName()} - Flight {flight.GetFlightNumber()} - {TicketPrice} USD");
         }
     }
-    public override void Print()
-    {
-        Console.WriteLine($"[Economy] - {Passenger.GetName()} - {Flight.GetFlightNumber()} - {TicketPrice} USD ");
-    }
-}
-public class Business : Ticket
-{
-    public BusinessTicket(Passenger passenger, Flight flight) : base(passenger, flight)
-    {
-        this.passenger = passenger;
-        this.flight = flight;
 
-<<<<<<< HEAD
-    }
-    public override double TicketPrice()
+   
+    public class BusinessTicket : Ticket
     {
-        get {
-            return 400;
-        }
-        set{
-            ticketPrice = value;
-        }
-    }
-    public override void Print()
-    {
-        Console.WriteLine($"[Economy] - {Passenger.GetName()} - {Flight.GetFlightNumber()} - {TicketPrice} USD ");
-    }
-}
-public class FirstClass : Ticket
-{
-    public FirstClassTicket(Passenger passenger, Flight flight) : base(passenger, flight)
-    {
-        this.passenger = passenger;
-        this.flight = flight;
+        public BusinessTicket(Passenger passenger, Flight flight) : base(passenger, flight) { }
 
-    }
-    public override double TicketPrice()
-    {
-        get {
-            return 800;
-        }
-        set{
-            ticketPrice = value;
+        protected override double CalculatePrice() => 400;
+
+        public override void Print()
+        {
+            Console.WriteLine($"[Business] {TicketId}: {passenger.GetName()} - Flight {flight.GetFlightNumber()} - {TicketPrice} USD");
         }
     }
-    public override void Print()
+
+   
+    public class FirstClassTicket : Ticket
     {
-        Console.WriteLine($"[Economy] - {Passenger.GetName()} - {Flight.GetFlightNumber()} - {TicketPrice} USD ");
-=======
-    public void Print() {
-        Console.WriteLine($"Ticket {ticketId} - {ticketType} - {ticketPrice} USD");
->>>>>>> 724ded50c1bd196b6c78c252dbb606f0a1156d32
+        public FirstClassTicket(Passenger passenger, Flight flight) : base(passenger, flight) { }
+
+        protected override double CalculatePrice() => 800;
+
+        public override void Print()
+        {
+            Console.WriteLine($"[First Class] {TicketId}: {passenger.GetName()} - Flight {flight.GetFlightNumber()} - {TicketPrice} USD");
+        }
     }
 }
