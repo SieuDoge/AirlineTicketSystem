@@ -7,18 +7,20 @@ public abstract class Ticket
     private string ticketId;
     private double ticketPrice;
     private char ticketType;
-    private Passenger passenger;
-    private Flight flight;
-    public Ticket(string ticketId, Passenger passenger, Flight flight, double ticketPrice, char ticketType)
+    private string passengerPhone;
+    public Ticket(string ticketId, double ticketPrice, char ticketType, string passengerPhone)
     {
         Random rnd = new Random();
-        this.ticketId = "TK" + rnd.Next(100, 99999);
+        /*this.ticketId = "TK" + rnd.Next(100, 99999);*/
+        this.ticketId = ticketId;
         this.ticketPrice = ticketPrice;
         this.ticketType = ticketType;
-        this.passenger = passenger;
-        this.flight = flight;
+        this.passengerPhone = passengerPhone;
 
     }
+    public string Flight { get; set; }
+    
+    public string PassengerPhone => passengerPhone;
     public string TicketId
     {
         get
@@ -32,10 +34,39 @@ public abstract class Ticket
 
         }
     }
+<<<<<<< HEAD
     public abstract double TicketPrice() { }
     
 
     public abstract void Print() { }
+=======
+    public char TicketType
+    {
+        get { return ticketType; }
+        set
+        {
+            if (value == 'e' || value == 'f' || value == 'b')
+            {
+                ticketType = value;
+                switch (ticketType)
+                {
+                    case 'e':
+                        ticketPrice = 200;
+                        break;
+                    case 'b':
+                        ticketPrice = 400;
+                        break;
+                    case 'f':
+                        ticketPrice = 800;  
+                        break;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Error!");
+            }
+        }
+>>>>>>> 724ded50c1bd196b6c78c252dbb606f0a1156d32
        
     
 }
@@ -69,6 +100,7 @@ public class Business : Ticket
         this.passenger = passenger;
         this.flight = flight;
 
+<<<<<<< HEAD
     }
     public override double TicketPrice()
     {
@@ -104,5 +136,9 @@ public class FirstClass : Ticket
     public override void Print()
     {
         Console.WriteLine($"[Economy] - {Passenger.GetName()} - {Flight.GetFlightNumber()} - {TicketPrice} USD ");
+=======
+    public void Print() {
+        Console.WriteLine($"Ticket {ticketId} - {ticketType} - {ticketPrice} USD");
+>>>>>>> 724ded50c1bd196b6c78c252dbb606f0a1156d32
     }
 }

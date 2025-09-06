@@ -2,9 +2,9 @@ namespace AirlineTicketSystem;
 //thấy chưa
 public class Passenger
 {
-    private string name ="";
-    private string email="";
-    private string phoneNumber="";
+    private string name;
+    private string email;
+    private string phoneNumber;
     private char gender;
     private int age;
 
@@ -87,7 +87,7 @@ public class Passenger
             age = value;
         }
     }
-    public Passenger(string name, string email, char gender, int age)
+    public Passenger(string name, string email, char gender, int age, string phoneNumber)
     {
         Name = name;
         Email = email;
@@ -95,9 +95,14 @@ public class Passenger
         Gender = gender;
         Age = age;
     }
-    public string inforstudent()
-    {
-        return $"Name: {Name}, Email: {Email}, Phone Number: {PhoneNumber}";
+    
+    public void Print() {
+        Console.WriteLine($"Name: {Name} - " +
+                          $"Email: {Email} - " +
+                          $"Phone: {PhoneNumber} - " +
+                          $"Gender: {Gender} - " +
+                          $"Age: {Age} - ");
     }
+
     // Other methods and properties can be added as needed
 }
