@@ -8,48 +8,76 @@ namespace AirlineTicketSystem
         private DateTime departureTime;
         private int availableSeats;
 
+        public string FlightNumber
+        {
+            get => flightNumber;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Flight number cannot be empty.");
+                flightNumber = value;
+            }
+        }
+
+        public string Departure
+        {
+            get => departure;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Departure cannot be empty.");
+                departure = value;
+            }
+        }
+
+        public string Destination
+        {
+            get => destination;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Destination cannot be empty.");
+                destination = value;
+            }
+        }
+
+        public DateTime DepartureTime
+        {
+            get => departureTime;
+            set => departureTime = value;
+        }
+
+        public int AvailableSeats
+        {
+            get => availableSeats;
+            set
+            {
+                if (value < 0 || value > 500)
+                    throw new ArgumentOutOfRangeException(nameof(value), "Seats must be between 0 and 500.");
+                availableSeats = value;
+            }
+        }
+
         public Flight(string flightNumber, string departure, string destination, DateTime departureTime, int seats)
         {
-            // FlightNumber
-            if (string.IsNullOrWhiteSpace(flightNumber))
-                throw new ArgumentException("Flight number cannot be empty.");
-            this.flightNumber = flightNumber;
-
-            // Departure
-            if (string.IsNullOrWhiteSpace(departure))
-                throw new ArgumentException("Departure cannot be empty.");
-            this.departure = departure;
-
-            // Destination
-            if (string.IsNullOrWhiteSpace(destination))
-                throw new ArgumentException("Destination cannot be empty.");
-            this.destination = destination;
-
-            // DepartureTime
-            this.departureTime = departureTime;
-
-            // Seats
-            if (seats < 0 || seats > 500)
-                throw new ArgumentOutOfRangeException(nameof(seats), "Seats must be between 0 and 500.");
-            this.availableSeats = seats;
+            FlightNumber = flightNumber;
+            Departure = departure;
+            Destination = destination;
+            DepartureTime = departureTime;
+            AvailableSeats = seats;
         }
 
         public string GetFlightNumber() => flightNumber;
-        public string GetDeparture() => departure;
-        public string GetDestination() => destination;
-
-        public DateTime GetDepartureTime()
-        {
-            return departureTime;
-        }
-
         public int GetAvailableSeats() => availableSeats;
+        public string GetDestination() => destination;
+        public DateTime GetDepartureTime() => departureTime;
+        public string GetDeparture() => departure;
 
         public bool BookSeat()
         {
-            if (availableSeats > 0)
+            if (AvailableSeats > 0)
             {
-                availableSeats--;
+                AvailableSeats--;
                 return true;
             }
             return false;

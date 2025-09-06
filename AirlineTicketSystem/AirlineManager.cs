@@ -112,10 +112,10 @@ public class AirlineManager
     {
         try
         {
-            using (StreamWriter sw = new StreamWriter(filename, false)) // false = overwrite
+            using (StreamWriter sw = new StreamWriter(filename, true)) // false = overwrite
             {
                 // Write header
-                sw.WriteLine("TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price");
+                // sw.WriteLine("TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price");
                 
                 int recordCount = 0;
                 
@@ -373,6 +373,28 @@ public class AirlineManager
         catch (Exception ex)
         {
             Console.WriteLine($"Export tickets failed: {ex.Message}");
+        }
+    }
+    public void ExportPassengerToCSV(string filename)
+    {
+        try
+        {
+            string ticketId = tickets.First().TicketId;
+            using (StreamWriter sw = new StreamWriter(filename, false))
+            {
+                sw.WriteLine("Name,Email,PhoneNumber,Gender,Age,TicketID");
+            
+                foreach (var Passenger in passengers)
+                {
+                    sw.WriteLine($"{Passenger.Name}, {Passenger.Email}, {Passenger.PhoneNumber}, {Passenger.Gender}, {Passenger.Age}, {ticketId}");
+                }
+            
+                Console.WriteLine($"Exported {passengers.Count} Passenger to {filename}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Export Passenger failed: {ex.Message}");
         }
     }
 }
