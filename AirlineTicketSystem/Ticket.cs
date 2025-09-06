@@ -2,7 +2,7 @@ using System.Diagnostics.Contracts;
 
 namespace AirlineTicketSystem;
 
-public class Ticket
+public abstract class Ticket
 {
     private string ticketId;
     private double ticketPrice;
@@ -32,41 +32,77 @@ public class Ticket
 
         }
     }
-    public char TicketType
-    {
-        get { return ticketType; }
-        set
-        {
-            if (value == 'e' || value == 'f' || value == 'b')
-            {
-                ticketType = value;
-                switch (ticketType)
-                {
-                    case 'e':
-                        ticketPrice = 200;
-                        break;
-                    case 'b':
-                        ticketPrice = 400;
-                        break;
-                    case 'f':
-                        ticketPrice = 800;  
-                        break;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Errol!");
-            }
-        }
+    public abstract double TicketPrice() { }
+    
+
+    public abstract void Print() { }
        
-            
-    }
-    public double TicketPrice {
-        get { return ticketPrice; }
+    
+}
+
+public class Economy:Ticket
+{
+    public EconomyTicket(Passenger passenger, Flight flight) : base(passenger,flight)
+    {
+        this.passenger = passenger;
+        this.flight = flight;
 
     }
+    public override double TicketPrice()
+    {
+        get {
+            return 200;
+        }
+        set{
+            ticketPrice = value;
+        }
+    }
+    public override void Print()
+    {
+        Console.WriteLine($"[Economy] - {Passenger.GetName()} - {Flight.GetFlightNumber()} - {TicketPrice} USD ");
+    }
+}
+public class Business : Ticket
+{
+    public BusinessTicket(Passenger passenger, Flight flight) : base(passenger, flight)
+    {
+        this.passenger = passenger;
+        this.flight = flight;
 
-    public void Print() {
-        Console.WriteLine($"Ticket {ticketId}: {passenger.GetName()} - Flight {flight.GetFlightNumber()} - {ticketType} - {ticketPrice} USD");
+    }
+    public override double TicketPrice()
+    {
+        get {
+            return 400;
+        }
+        set{
+            ticketPrice = value;
+        }
+    }
+    public override void Print()
+    {
+        Console.WriteLine($"[Economy] - {Passenger.GetName()} - {Flight.GetFlightNumber()} - {TicketPrice} USD ");
+    }
+}
+public class FirstClass : Ticket
+{
+    public FirstClassTicket(Passenger passenger, Flight flight) : base(passenger, flight)
+    {
+        this.passenger = passenger;
+        this.flight = flight;
+
+    }
+    public override double TicketPrice()
+    {
+        get {
+            return 800;
+        }
+        set{
+            ticketPrice = value;
+        }
+    }
+    public override void Print()
+    {
+        Console.WriteLine($"[Economy] - {Passenger.GetName()} - {Flight.GetFlightNumber()} - {TicketPrice} USD ");
     }
 }

@@ -32,10 +32,9 @@
               "RelativeDocumentMoniker": "Flight.cs",
               "ToolTip": "C:\\Users\\HUY\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\Flight.cs",
               "RelativeToolTip": "Flight.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-29T02:11:06.533Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-29T02:11:06.533Z"
             },
             {
               "$type": "Document",
@@ -45,7 +44,7 @@
               "RelativeDocumentMoniker": "Ticket.cs",
               "ToolTip": "C:\\Users\\HUY\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\Ticket.cs",
               "RelativeToolTip": "Ticket.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACAAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAgwF8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-29T02:11:17.622Z",
               "EditorCaption": ""
@@ -58,10 +57,9 @@
               "RelativeDocumentMoniker": "Passenger.cs",
               "ToolTip": "C:\\Users\\HUY\\OneDrive\\Ta\u0300i li\u00EA\u0323u\\GitHub\\AirlineTicketSystem\\AirlineTicketSystem\\Passenger.cs",
               "RelativeToolTip": "Passenger.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-29T02:11:04.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-29T02:11:04.977Z"
             }
           ]
         }
