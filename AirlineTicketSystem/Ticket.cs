@@ -2,40 +2,33 @@ using System;
 
 namespace AirlineTicketSystem
 {
-   
     public abstract class Ticket
     {
         private string ticketId;
-        protected double ticketPrice; 
+        protected double ticketPrice;
         protected Passenger passenger;
         protected Flight flight;
 
-        public Ticket(Passenger passenger, Flight flight, string ticketId , double ticketPrice)
+        public Ticket(Passenger passenger, Flight flight)
         {
             Random rnd = new Random();
             this.ticketId = "TK" + rnd.Next(100, 99999);
             this.passenger = passenger;
             this.flight = flight;
-            this.ticketPrice = CalculatePrice(); 
+            this.ticketPrice = CalculatePrice();
         }
 
-       
         public string TicketId => ticketId;
-
-      
         public double TicketPrice => ticketPrice;
 
-        
         protected abstract double CalculatePrice();
-
-       
-       public abstract void Print() {}
+        public abstract void Print();
     }
 
-    
     public class EconomyTicket : Ticket
     {
-        public EconomyTicket(Passenger passenger, Flight flight) : base(passenger, flight) { }
+        public EconomyTicket(Passenger passenger, Flight flight)
+            : base(passenger, flight) { }
 
         protected override double CalculatePrice() => 200;
 
@@ -45,10 +38,10 @@ namespace AirlineTicketSystem
         }
     }
 
-   
     public class BusinessTicket : Ticket
     {
-        public BusinessTicket(Passenger passenger, Flight flight) : base(passenger, flight) { }
+        public BusinessTicket(Passenger passenger, Flight flight)
+            : base(passenger, flight) { }
 
         protected override double CalculatePrice() => 400;
 
@@ -58,10 +51,10 @@ namespace AirlineTicketSystem
         }
     }
 
-   
     public class FirstClassTicket : Ticket
     {
-        public FirstClassTicket(Passenger passenger, Flight flight) : base(passenger, flight) { }
+        public FirstClassTicket(Passenger passenger, Flight flight)
+            : base(passenger, flight) { }
 
         protected override double CalculatePrice() => 800;
 
