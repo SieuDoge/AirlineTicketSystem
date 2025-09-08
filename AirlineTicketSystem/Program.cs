@@ -86,7 +86,7 @@ namespace AirlineTicketSystem
         Console.Write("Gender (m/f/u): ");
         char gender = Convert.ToChar(Console.ReadLine().ToLower());
 
-        Passenger newPassenger = new Passenger(name, email, gender, age, phoneNumber);
+        Passenger newPassenger = new Passenger(name, email, phoneNumber, gender, age);
 
         airlineManager.showAllFlight();
 
