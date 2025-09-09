@@ -1,115 +1,104 @@
 using System;
 
-
 namespace AirlineTicketSystem
 {
-    
-    
-    
-    abstract class Payment
+    public abstract class Payment
     {
-        public string paymentid { get; set; }
-        public double amount { get; set; }
-        public string status { get; set; }
+        public string PaymentId { get; set; }
+        public double Amount { get; protected set; }
+        public string Status { get; protected set; }
 
-        public Payment(string paymentid, double amount)
+        protected Payment(double amount, string paymentId)
         {
-            this.paymentid = paymentid;
-            this.amount = amount;
-            this.status = "Pending";
+            Amount = amount;
+            PaymentId = "PM" + new Random().Next(100000, 999999);
+            Status = "Pending";
         }
 
-        public abstract bool Process();  
-        public abstract void Print();    
+        // trả về true nếu thanh toán thành công
+        public abstract bool Process();
+        public abstract void Print();
     }
 
-   
-    class CashPayment : Payment
+    public class CashPayment : Payment
     {
-        public CashPayment(string paymentid, double amount) : base(paymentid, amount) { }
+        public CashPayment(double amount, string paymentId = null) : base(amount, paymentId) { }
 
         public override bool Process()
         {
-            this.  status = amount > 0 ? "Success" : "Failed";
-            return status == "Success";
+            Status = Amount > 0 ? "Success" : "Failed";
+            return Status == "Success";
         }
 
         public override void Print()
         {
-            Console.WriteLine("Cash Payment");
-            Console.WriteLine($"ID: {paymentid}");
-            Console.WriteLine($"amount: {amount}");
-            Console.WriteLine($"status: {status}");
-           
+            Console.WriteLine("=== Cash Payment ===");
+            Console.WriteLine($"ID: {PaymentId}");
+            Console.WriteLine($"Amount: {Amount}");
+            Console.WriteLine($"Status: {Status}");
         }
     }
 
-    class CreditCardPayment : Payment
+    public class CreditCardPayment : Payment
     {
         public string CardNumber { get; set; }
 
-        public CreditCardPayment(string paymentid, double amount, string cardNumber)
-            : base(paymentid, amount)
+        public CreditCardPayment(double amount, string cardNumber, string paymentId = null) : base(amount, paymentId)
         {
-            this.CardNumber = cardNumber;
+            CardNumber = cardNumber ?? "";
         }
 
         public override bool Process()
         {
-            
-            if (amount > 0 && !CardNumber.EndsWith("0000"))
+            // giả lập: thẻ valid nếu amount>0 và không kết thúc bằng "0000"
+            if (Amount > 0 && !CardNumber.EndsWith("0000"))
             {
-                this.status = "Success";
+                Status = "Success";
                 return true;
             }
-                    this.   status = "Failed";
+            Status = "Failed";
             return false;
         }
 
         public override void Print()
         {
-            Console.WriteLine("Credit Card Payment ");
-            Console.WriteLine($"ID: {paymentid}");
-            Console.WriteLine($"amount: {amount}");
-            Console.WriteLine($"Card: **** **** **** {CardNumber.Substring(CardNumber.Length - 4)}");
-            Console.WriteLine($"status: {status}");
-            
+            Console.WriteLine("=== Credit Card Payment ===");
+            Console.WriteLine($"ID: {PaymentId}");
+            Console.WriteLine($"Amount: {Amount}");
+            string last4 = CardNumber.Length >= 4 ? CardNumber.Substring(CardNumber.Length - 4) : CardNumber;
+            Console.WriteLine($"Card: **** **** **** {last4}");
+            Console.WriteLine($"Status: {Status}");
         }
     }
 
-   
-    class EwalletPayment : Payment
+    public class EwalletPayment : Payment
     {
         public string WalletId { get; set; }
 
-        public EwalletPayment(string paymentid, double amount, string walletId)
-            : base(paymentid, amount)
+        public EwalletPayment(double amount, string walletId, string paymentId = null) : base(amount, paymentId)
         {
-            this.   WalletId = walletId;
+            WalletId = walletId ?? "";
         }
 
         public override bool Process()
         {
-            
-            if (amount >= 10)
+            // giả lập: ewallet chỉ thành công nếu amount >= 10
+            if (Amount >= 10)
             {
-                this.status = "Success";
+                Status = "Success";
                 return true;
             }
-            this.status = "Failed";
+            Status = "Failed";
             return false;
         }
 
         public override void Print()
         {
-            Console.WriteLine("EWallet Payment ");
-            Console.WriteLine($"ID: {paymentid}");
-            Console.WriteLine($"amount: {amount}");
+            Console.WriteLine("=== E-Wallet Payment ===");
+            Console.WriteLine($"ID: {PaymentId}");
+            Console.WriteLine($"Amount: {Amount}");
             Console.WriteLine($"Wallet: {WalletId}");
-            Console.WriteLine($"status: {status}");
-            
+            Console.WriteLine($"Status: {Status}");
         }
     }
-
-   
 }
