@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 
 namespace AirlineTicketSystem
 {
@@ -46,9 +48,7 @@ namespace AirlineTicketSystem
                 airlineManager.ImportTicketsFromCSV(ticketFile);
 
                 if (File.Exists(allDataFile))
-                {
                     airlineManager.importFormExcel(allDataFile);
-                }
 
                 Console.WriteLine("All data loaded successfully");
                 return airlineManager;
@@ -62,7 +62,7 @@ namespace AirlineTicketSystem
 
         static void BookTicket()
         {
-            AirlineManager airlineManager = LoadingData(); 
+            AirlineManager airlineManager = LoadingData();
 
             try
             {
@@ -78,67 +78,98 @@ namespace AirlineTicketSystem
                 string phoneNumber = Console.ReadLine();
 
                 Console.Write("Age: ");
-                int age = Convert.ToInt32(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int age))
+                {
+                    Console.WriteLine("Invalid age");
+                    return;
+                }
 
                 Console.Write("Gender (m/f/u): ");
-                char gender = Convert.ToChar(Console.ReadLine().ToLower());
+                string g = Console.ReadLine();
+                if (string.IsNullOrEmpty(g)) { Console.WriteLine("Invalid gender"); return; }
+                char gender = char.ToLower(g[0]);
 
-                Passenger newPassenger = new Passenger(name, email, gender, age, phoneNumber);
+                var newPassenger = new Passenger(name, email, gender, age, phoneNumber);
 
                 airlineManager.showAllFlight();
 
                 Console.Write("\nEnter Flight Number: ");
                 string selectedFlightNumber = Console.ReadLine();
 
-                Flight selectedFlight =
-                    airlineManager.Flights.FirstOrDefault(f => f.GetFlightNumber() == selectedFlightNumber);
-
-                if (selectedFlight == null)
-                {
-                    Console.WriteLine("Flight not found!");
-                    return;
-                }
-
-                if (selectedFlight.GetAvailableSeats() <= 0)
-                {
-                    Console.WriteLine("No available seats on this flight!");
-                    return;
-                }
+                var selectedFlight = airlineManager.Flights.FirstOrDefault(f => f.GetFlightNumber() == selectedFlightNumber);
+                if (selectedFlight == null) { Console.WriteLine("Flight not found!"); return; }
+                if (selectedFlight.GetAvailableSeats() <= 0) { Console.WriteLine("No available seats on this flight!"); return; }
 
                 Console.WriteLine("\nTicket Types:");
-                Console.WriteLine("e - Economy ($200)");
-                Console.WriteLine("b - Business ($400)");
-                Console.WriteLine("f - First Class ($800)");
+                Console.WriteLine("e - Economy");
+                Console.WriteLine("b - Business");
+                Console.WriteLine("f - First Class");
                 Console.Write("Choose ticket type (e/b/f): ");
-                char ticketType = Convert.ToChar(Console.ReadLine().ToLower());
+                string tt = Console.ReadLine();
+                if (string.IsNullOrEmpty(tt)) { Console.WriteLine("Invalid ticket type"); return; }
+                char ticketType = char.ToLower(tt[0]);
 
-                double price = 0;
+                Ticket newTicket = null;
                 switch (ticketType)
                 {
                     case 'e':
-                        price = 200;
+                        newTicket = new EconomyTicket(newPassenger, selectedFlight);
                         break;
                     case 'b':
-                        price = 400;
+                        newTicket = new BusinessTicket(newPassenger, selectedFlight);
                         break;
                     case 'f':
-                        price = 800;
+                        newTicket = new FirstClassTicket(newPassenger, selectedFlight);
                         break;
                     default:
                         Console.WriteLine("Invalid ticket type!");
                         return;
                 }
 
-                Random rnd = new Random();
-                string ticketId = "TK" + rnd.Next(100000, 999999);
+                double price = newTicket.TicketPrice;
+                Console.WriteLine($"\nTicket price: {price} USD");
 
-                Ticket newTicket = new Ticket(ticketId, price, ticketType, phoneNumber);
-                newTicket.Flight = selectedFlightNumber;
-                Console.WriteLine($"Ticket {newTicket.PassengerPhone}");
+                // Payment step
+                Console.WriteLine("\nChoose Payment Method:");
+                Console.WriteLine("1 - Credit Card");
+                Console.WriteLine("2 - E-Wallet");
+                Console.WriteLine("3 - Cash");
+                Console.Write("Option: ");
+                string payChoice = Console.ReadLine();
+                Payment payment = null;
+                switch (payChoice)
+                {
+                    case "1":
+                        Console.Write("Enter card number: ");
+                        string card = Console.ReadLine();
+                        payment = new CreditCardPayment(price, card);
+                        break;
+                    case "2":
+                        Console.Write("Enter wallet id: ");
+                        string wid = Console.ReadLine();
+                        payment = new EwalletPayment(price, wid);
+                        break;
+                    case "3":
+                        payment = new CashPayment(price);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid payment option");
+                        return;
+                }
 
+                bool paid = payment.Process();
+                payment.Print();
+
+                if (!paid)
+                {
+                    Console.WriteLine("Payment failed. Booking cancelled.");
+                    return;
+                }
+
+                // thanh toán thành công -> book seat and save
                 if (selectedFlight.BookSeat())
                 {
-                    airlineManager.addPassenger(newPassenger);
+                    airlineManager.addPassenger(newPassenger); 
                     airlineManager.addTicket(newTicket);
 
                     Console.WriteLine("\n=== BOOKING SUCCESSFUL ===");
@@ -150,11 +181,10 @@ namespace AirlineTicketSystem
                     selectedFlight.Print();
 
                     string dataDir = @"..\..\..\UserData";
-
+                    Directory.CreateDirectory(dataDir);
                     airlineManager.ExportAirlineData(Path.Combine(dataDir, "AirlineData.csv"));
                     airlineManager.ExportTicketsToCSV(Path.Combine(dataDir, "TicketData.csv"));
                     airlineManager.ExportFlightsToCSV(Path.Combine(dataDir, "FlightData.csv"));
-                    airlineManager.ExportPassengerToCSV(Path.Combine(dataDir, "Passenger.csv"));
                 }
                 else
                 {
@@ -164,6 +194,10 @@ namespace AirlineTicketSystem
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error: {ex.Message}");
             }
         }
 
@@ -178,9 +212,6 @@ namespace AirlineTicketSystem
                 Console.WriteLine("3. Show All Tickets");
                 Console.WriteLine("4. Add New Flight");
                 Console.WriteLine("5. Add New Passenger");
-                /*Console.WriteLine("6. Export All Data");
-                Console.WriteLine("7. Export Flights Only");
-                Console.WriteLine("8. Export Tickets Only");*/
                 Console.WriteLine("0. Back to Main Menu");
                 Console.Write("Choose option: ");
 
@@ -203,17 +234,6 @@ namespace AirlineTicketSystem
                     case "5":
                         AddNewPassenger(airlineManager);
                         break;
-                    /*case "6":
-                        SaveAllData(airlineManager);
-                        break;
-                    case "7":
-                        string flightFile = "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\UserData\\FlightData.csv";
-                        airlineManager.ExportFlightsToCSV(flightFile);
-                        break;
-                    case "8":
-                        string ticketFile = "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineTicketSystem\\UserData\\TicketData.csv";
-                        airlineManager.ExportTicketsToCSV(ticketFile);
-                        break;*/
                     case "0":
                         return;
                     default:
@@ -253,11 +273,7 @@ namespace AirlineTicketSystem
                 Console.WriteLine("Flight added successfully!");
                 newFlight.Print();
 
-                // Save to FlightData.csv
-                Console.Write("\nSuccessfully added flight");
-
-                string flightFile =
-                    @"..\..\..\UserData\FlightData.csv";
+                string flightFile = Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "UserData", "FlightData.csv");
                 airlineManager.ExportFlightsToCSV(flightFile);
             }
             catch (Exception ex)
