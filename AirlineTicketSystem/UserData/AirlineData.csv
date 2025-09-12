@@ -1,1 +1,3 @@
 TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price
+TK340461,Huynh,@2,0816657483,m,19,VNV123,SG,DL,2000-10-10 20:00,93,f,800
+TK848523,Huynh,@,1234522213,m,18,VN123,DL,SG,2000-12-15 20:00,124,f,800
