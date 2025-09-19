@@ -9,13 +9,16 @@ namespace AirlineTicketSystem
         protected Passenger passenger;
         protected Flight flight;
         public char TicketTypeChar { get; protected set; }
+        public int SeatNumber { get; protected set; }
 
-        protected Ticket(Passenger passenger, Flight flight, string ticketId = null)
+        protected Ticket(Passenger passenger, Flight flight, int seatNumber,string ticketId = null)
+            
         {
             this.ticketId = string.IsNullOrWhiteSpace(ticketId) ? "TK" + new Random().Next(100000, 999999) : ticketId;
             this.passenger = passenger;
             this.flight = flight;
             this.ticketPrice = CalculatePrice();
+            this.SeatNumber=seatNumber;
         }
 
         public string TicketId => ticketId;
@@ -29,8 +32,8 @@ namespace AirlineTicketSystem
 
     public class EconomyTicket : Ticket
     {
-        public EconomyTicket(Passenger passenger, Flight flight, string ticketId = null)
-            : base(passenger, flight, ticketId)
+        public EconomyTicket(Passenger passenger, Flight flight, int seatNumber ,string ticketId = null)
+            : base(passenger, flight, seatNumber, ticketId)
         {
             TicketTypeChar = 'e';
         }
@@ -39,14 +42,14 @@ namespace AirlineTicketSystem
 
         public override void Print()
         {
-            Console.WriteLine($"[Economy] {TicketId}: {passenger.Name} - Flight {flight.GetFlightNumber()} - {TicketPrice} USD");
+            Console.WriteLine($"[Economy] {TicketId}: {passenger.Name} - Flight {flight.GetFlightNumber()} - SeatNumber {SeatNumber} - {TicketPrice} USD");
         }
     }
 
     public class BusinessTicket : Ticket
     {
-        public BusinessTicket(Passenger passenger, Flight flight, string ticketId = null)
-            : base(passenger, flight, ticketId)
+        public BusinessTicket(Passenger passenger, Flight flight, int seatNumber ,string ticketId = null)
+            : base(passenger, flight, seatNumber, ticketId)
         {
             TicketTypeChar = 'b';
         }
@@ -55,14 +58,14 @@ namespace AirlineTicketSystem
 
         public override void Print()
         {
-            Console.WriteLine($"[Business] {TicketId}: {passenger.Name} - Flight {flight.GetFlightNumber()} - {TicketPrice} USD");
+            Console.WriteLine($"[Business] {TicketId}: {passenger.Name} - Flight {flight.GetFlightNumber()} - SeatNumber {SeatNumber} - {TicketPrice} USD");
         }
     }
 
     public class FirstClassTicket : Ticket
     {
-        public FirstClassTicket(Passenger passenger, Flight flight, string ticketId = null)
-            : base(passenger, flight, ticketId)
+        public FirstClassTicket(Passenger passenger, Flight flight, int seatNumber,  string ticketId = null)
+            : base(passenger, flight, seatNumber,ticketId)
         {
             TicketTypeChar = 'f';
         }
@@ -71,7 +74,7 @@ namespace AirlineTicketSystem
 
         public override void Print()
         {
-            Console.WriteLine($"[First Class] {TicketId}: {passenger.Name} - Flight {flight.GetFlightNumber()} - {TicketPrice} USD");
+            Console.WriteLine($"[First Class] {TicketId}: {passenger.Name} - Flight {flight.GetFlightNumber()} - SeatNumber {SeatNumber} - {TicketPrice} USD");
         }
     }
 }

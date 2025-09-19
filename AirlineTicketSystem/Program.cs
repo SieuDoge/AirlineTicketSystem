@@ -108,18 +108,30 @@ namespace AirlineTicketSystem
                 string tt = Console.ReadLine();
                 if (string.IsNullOrEmpty(tt)) { Console.WriteLine("Invalid ticket type"); return; }
                 char ticketType = char.ToLower(tt[0]);
-
+                selectedFlight.ShowEmptySeats(ticketType);
                 Ticket newTicket = null;
+                Console.Write("\nEnter seat number you want to book: ");
+                if (!int.TryParse(Console.ReadLine(), out int seatNumber))
+                {
+                    Console.WriteLine("Invalid seat number!");
+                    return;
+                }
+                if (!selectedFlight.IsSeatAvailable(ticketType, seatNumber))
+                {
+                    Console.WriteLine("Seat not available or not in this class!");
+                    return;
+                }
+
                 switch (ticketType)
                 {
                     case 'e':
-                        newTicket = new EconomyTicket(newPassenger, selectedFlight);
+                        newTicket = new EconomyTicket(newPassenger, selectedFlight,seatNumber);
                         break;
                     case 'b':
-                        newTicket = new BusinessTicket(newPassenger, selectedFlight);
+                        newTicket = new BusinessTicket(newPassenger, selectedFlight,seatNumber);
                         break;
                     case 'f':
-                        newTicket = new FirstClassTicket(newPassenger, selectedFlight);
+                        newTicket = new FirstClassTicket(newPassenger, selectedFlight,seatNumber);
                         break;
                     default:
                         Console.WriteLine("Invalid ticket type!");
