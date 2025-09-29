@@ -1,0 +1,463 @@
+﻿<Window
+    x:Class="AirlineSystem.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Airline Ticket System"
+    MinWidth="800"
+    MinHeight="600"
+    Background="#FFF8FAFC"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <!--  Header with Gradient Background  -->
+        <Border x:Name="HeaderBorder" Grid.Row="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#FF4A90E2" />
+                    <GradientStop Offset="0.5" Color="#FF5BA0F2" />
+                    <GradientStop Offset="1" Color="#FF357ABD" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="10"
+                    Direction="270"
+                    Opacity="0.3"
+                    ShadowDepth="3"
+                    Color="#22000000" />
+            </Border.Effect>
+
+            <Grid Margin="30,0">
+                <!--  Main Title  -->
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,15,0"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Text="✈️" />
+                    <StackPanel>
+                        <TextBlock
+                            FontFamily="Segoe UI"
+                            FontSize="28"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="AIRLINE TICKET SYSTEM" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="12"
+                            Foreground="#CCFFFFFF"
+                            Text="Your Journey Starts Here" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  Back Button with Modern Style  -->
+                <Button
+                    x:Name="BackButton"
+                    Width="100"
+                    Height="40"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="#44FFFFFF"
+                    BorderThickness="0"
+                    Click="BackToMenu_Click"
+                    Cursor="Hand"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,5,0" Text="←" />
+                        <TextBlock Text="Back" />
+                    </StackPanel>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#66FFFFFF" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!--  User Info Section  -->
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Border
+                        Padding="12,6"
+                        Background="#44FFFFFF"
+                        CornerRadius="15">
+                        <TextBlock
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            Text="System Online" />
+                    </Border>
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Foreground="#CCFFFFFF"
+                        Text="🟢" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!--  Main Content Area  -->
+        <Grid x:Name="MainGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Enhanced Menu Panel  -->
+            <Border
+                x:Name="MenuPanel"
+                Grid.Column="0"
+                Background="White"
+                BorderBrush="#FFE5E7EB"
+                BorderThickness="0,0,1,0">
+                <Border.Effect>
+                    <DropShadowEffect
+                        BlurRadius="15"
+                        Direction="0"
+                        Opacity="0.1"
+                        ShadowDepth="2"
+                        Color="#22000000" />
+                </Border.Effect>
+
+                <StackPanel Margin="30,40,30,40">
+                    <!--  Menu Title  -->
+                    <StackPanel
+                        Margin="0,0,0,40"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            FontSize="24"
+                            Text="📋" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe UI"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Foreground="#FF1F2937"
+                            Text="MAIN MENU" />
+                    </StackPanel>
+
+                    <!--  Modern Book Ticket Button  -->
+                    <Border
+                        Margin="0,0,0,20"
+                        Background="#FF4A90E2"
+                        CornerRadius="15"
+                        Cursor="Hand">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="#FF357ABD" />
+                                                    <GradientStop Offset="1" Color="#FF4A90E2" />
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect
+                                                    BlurRadius="20"
+                                                    Direction="315"
+                                                    Opacity="0.4"
+                                                    ShadowDepth="5"
+                                                    Color="#FF4A90E2" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Button
+                            x:Name="LoadBT"
+                            Height="70"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="Load_BookTicket"
+                            Cursor="Hand">
+                            <StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        Text="🎫" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe UI"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="Book Ticket" />
+                                </StackPanel>
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
+                                    FontSize="11"
+                                    Foreground="#CCFFFFFF"
+                                    Text="Reserve your flight today" />
+                            </StackPanel>
+                        </Button>
+                    </Border>
+
+                    <!--  Modern Manager Button  -->
+                    <Border
+                        Margin="0,0,0,20"
+                        Background="#FF10B981"
+                        CornerRadius="15"
+                        Cursor="Hand">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="#FF059669" />
+                                                    <GradientStop Offset="1" Color="#FF10B981" />
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect
+                                                    BlurRadius="20"
+                                                    Direction="315"
+                                                    Opacity="0.4"
+                                                    ShadowDepth="5"
+                                                    Color="#FF10B981" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Button
+                            x:Name="ManagerButton"
+                            Height="70"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="Load_Manager"
+                            Cursor="Hand">
+                            <StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        Text="👨‍💼" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe UI"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="Manager" />
+                                </StackPanel>
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
+                                    FontSize="11"
+                                    Foreground="#CCFFFFFF"
+                                    Text="Administration panel" />
+                            </StackPanel>
+                        </Button>
+                    </Border>
+
+                    <!--  Modern Search Button  -->
+                    <Border
+                        Background="#FFEF4444"
+                        CornerRadius="15"
+                        Cursor="Hand">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="#FFDC2626" />
+                                                    <GradientStop Offset="1" Color="#FFEF4444" />
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect
+                                                    BlurRadius="20"
+                                                    Direction="315"
+                                                    Opacity="0.4"
+                                                    ShadowDepth="5"
+                                                    Color="#FFEF4444" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Button
+                            x:Name="SearchButton"
+                            Height="70"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand">
+                            <StackPanel>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        Text="🔍" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe UI"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="Search" />
+                                </StackPanel>
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
+                                    FontSize="11"
+                                    Foreground="#CCFFFFFF"
+                                    Text="Find flights and bookings" />
+                            </StackPanel>
+                        </Button>
+                    </Border>
+
+                    <!--  Quick Stats Section  -->
+                    <Border
+                        Margin="0,40,0,0"
+                        Padding="20"
+                        Background="#FFF9FAFB"
+                        BorderBrush="#FFE5E7EB"
+                        BorderThickness="1"
+                        CornerRadius="12">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="0,0,0,15"
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="SemiBold"
+                                Foreground="#FF374151"
+                                Text="Quick Stats" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Foreground="#FF4A90E2"
+                                        Text="24" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Foreground="#FF6B7280"
+                                        Text="Active Flights" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Foreground="#FF10B981"
+                                        Text="157" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Foreground="#FF6B7280"
+                                        Text="Bookings Today" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!--  Content Area with Modern Design  -->
+            <Border
+                x:Name="ContentArea"
+                Grid.Column="1"
+                Background="White">
+                <ContentControl
+                    x:Name="BT"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" />
+            </Border>
+        </Grid>
+
+        <!--  Full Screen Content Area  -->
+        <Border
+            x:Name="FullScreenContent"
+            Grid.Row="1"
+            Grid.RowSpan="1"
+            Background="White"
+            Visibility="Collapsed">
+            <ContentControl
+                x:Name="FullScreenBT"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+        </Border>
+
+        <!--  Modern Footer  -->
+        <Border x:Name="FooterBorder" Grid.Row="2">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#FF374151" />
+                    <GradientStop Offset="1" Color="#FF4B5563" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="30,0">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FFCBD5E1"
+                    Text="© 2025 Airline Ticket System - All rights reserved" />
+
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,10,0"
+                        FontSize="11"
+                        Foreground="#FFCBD5E1"
+                        Text="Version 2.0" />
+                    <Border
+                        Width="6"
+                        Height="6"
+                        Background="#FF10B981"
+                        CornerRadius="3" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>
