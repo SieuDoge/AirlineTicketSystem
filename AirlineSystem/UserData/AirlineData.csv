@@ -1,0 +1,2 @@
+TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price,Status
+TK186763,Nguyen Huu HUynh,24110021@gmail.com,0816657483,m,19,VN112,DL,HP,2025-10-06 14:00,99,b,400,0
