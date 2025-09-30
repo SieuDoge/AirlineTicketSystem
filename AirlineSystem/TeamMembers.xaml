@@ -19,7 +19,9 @@
         <!--  Header Section  -->
         <Border
             Grid.Row="0"
+            Height="104"
             Padding="40,30"
+            VerticalAlignment="Top"
             Background="White"
             BorderBrush="#FFE0E6ED"
             BorderThickness="0,0,0,2">
@@ -32,11 +34,6 @@
                     FontWeight="Bold"
                     Foreground="#FF2E3B4E"
                     Text="OUR TEAM" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="16"
-                    Foreground="#FF666666"
-                    Text="Airline Ticket Management System - Group Project 2025" />
             </StackPanel>
         </Border>
 
@@ -453,27 +450,6 @@
         </ScrollViewer>
 
         <!--  Footer  -->
-        <Border
-            Grid.Row="2"
-            Padding="40,20"
-            Background="White"
-            BorderBrush="#FFE0E6ED"
-            BorderThickness="0,2,0,0">
-            <StackPanel HorizontalAlignment="Center">
-                <TextBlock
-                    Margin="0,0,0,5"
-                    HorizontalAlignment="Center"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    Foreground="#FF2E3B4E"
-                    Text="HCMC University of Technology and Education - HCMUTE" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="12"
-                    Foreground="#FF666666"
-                    Text="Object-Oriented Programming Project - 2025" />
-            </StackPanel>
-        </Border>
 
     </Grid>
 </UserControl>

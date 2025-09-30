@@ -14,8 +14,10 @@
             <RowDefinition Height="Auto" MinHeight="50" />
         </Grid.RowDefinitions>
 
+
         <!--  Enhanced Header Section  -->
-        <Border Grid.Row="0">
+
+        <Border x:Name="HeaderManager" Grid.Row="0">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                     <GradientStop Offset="0" Color="#FF1E40AF" />
@@ -705,52 +707,6 @@
         </ScrollViewer>
 
         <!--  Modern Footer  -->
-        <Border Grid.Row="2">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="#FF374151" />
-                    <GradientStop Offset="1" Color="#FF4B5563" />
-                </LinearGradientBrush>
-            </Border.Background>
-            <Grid Margin="20,10">
-                <TextBlock
-                    Margin="0,0,0,8"
-                    VerticalAlignment="Bottom"
-                    FontSize="11"
-                    Foreground="#FFCBD5E1"
-                    Text="© 2025 Airline Management System" />
-
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Border
-                        Margin="0,0,10,0"
-                        Background="#FF4A90E2"
-                        CornerRadius="5">
-                        <Button
-                            Padding="10,5"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Click="Home_Click"
-                            Content="🏠 Home"
-                            FontSize="11"
-                            FontWeight="SemiBold"
-                            Foreground="White" />
-                    </Border>
-                    <Border Background="#FFEF4444" CornerRadius="5">
-                        <Button
-                            Padding="10,5"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Content="🚪 Logout"
-                            FontSize="11"
-                            FontWeight="SemiBold"
-                            Foreground="White" />
-                    </Border>
-                </StackPanel>
-            </Grid>
-        </Border>
 
     </Grid>
 </UserControl>

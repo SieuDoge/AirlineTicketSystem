@@ -86,7 +86,7 @@ namespace AirlineSystem
             MenuPanel.Visibility = Visibility.Visible;
             FullScreenContent.Visibility = Visibility.Visible;
             BackButton.Visibility = Visibility.Visible;
-            FooterBorder.Visibility = Visibility.Collapsed;
+            //FooterBorder.Visibility = Visibility.Collapsed;
             //HeaderBorder.Visibility = Visibility.Collapsed;
         }
        

@@ -41,8 +41,10 @@ namespace AirlineSystem
 
             public Ticket Ticket { get; }
 
-            public double TotalAmount => Ticket.TicketPrice * 1.1;
-            public double TaxAmount => Math.Round(Ticket.TicketPrice * 0.1, 2);
+            public double TaxAmount => Math.Round(Ticket.TicketPrice / 1.1 * 0.1, 2);
+
+            public double NonTax => Ticket.TicketPrice / 1.1;
+
 
 
             public CheckoutViewModel(Passenger passenger, Flight flight, Ticket ticket)
@@ -122,10 +124,10 @@ namespace AirlineSystem
                         airlineManager.addTicket(ticket);
 
                         // Save data
-                        SaveData();
+                        // SaveData();
 
                         // Navigate to success page
-                        NavigateToTicketInfo(passenger, ticket, flight);
+                        NavigateToTicketInfo(airlineManager ,passenger, ticket, flight);
 
                         /*MessageBox.Show("Payment successful! Your ticket has been booked.", "Success",
                             MessageBoxButton.OK, MessageBoxImage.Information);*/
@@ -196,7 +198,7 @@ namespace AirlineSystem
             }
         }
 
-        private void SaveData()
+        /*private void SaveData()
         {
             try
             {
@@ -215,13 +217,13 @@ namespace AirlineSystem
                 // Log error but don't stop the process
                 Console.WriteLine($"Error saving data: {ex.Message}");
             }
-        }
+        }*/
 
-        private void NavigateToTicketInfo(Passenger passenger, Ticket ticket, Flight flight)
+        private void NavigateToTicketInfo(AirlineManager airlinemanager, Passenger passenger, Ticket ticket, Flight flight)
         {
 
 
-            var ticketInfo = new TicketInfo(passenger, ticket, flight);
+            var ticketInfo = new TicketInfo(airlinemanager, passenger, ticket, flight);
             ticketInfo.Show();  // hoặc ShowDialog()
 
         }

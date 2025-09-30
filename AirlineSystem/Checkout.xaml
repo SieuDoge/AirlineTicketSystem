@@ -385,7 +385,7 @@
                             <TextBlock FontSize="12">
                                 <Run Text="🎫 " />
                                 <Run Text="{Binding Ticket.TicketTypeName, Mode=OneWay, FallbackValue='(no ticket)'}" />
-                                <Run Text="{Binding Ticket.TicketPrice, Mode=OneWay, StringFormat='{}{0:C}'}" />
+                                <Run Text="{Binding NonTax, Mode=OneWay, StringFormat='{}{0:C}'}" />
 
                             </TextBlock>
 
@@ -409,7 +409,7 @@
                         <Grid>
                             <TextBlock FontSize="12">
                                 <Run Text="Total: " />
-                                <Run Text="{Binding TotalAmount, Mode=OneWay, StringFormat='{}{0:F2} USD'}" />
+                                <Run Text="{Binding Ticket.TicketPrice, Mode=OneWay, StringFormat='{}{0:F2} USD'}" />
 
                             </TextBlock>
                             <TextBlock

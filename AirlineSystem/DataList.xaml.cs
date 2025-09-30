@@ -15,7 +15,7 @@ namespace AirlineSystem
 
         private DataType currentDataType;
         private AirlineManager airlineManager;
-    
+
         public DataList(DataType dataType, AirlineManager manager)
         {
             InitializeComponent();
@@ -24,12 +24,6 @@ namespace AirlineSystem
 
             SetupUI();
             LoadData();
-            SetupEventHandlers();
-        }
-
-        private void SetupEventHandlers()
-        {
-            // Event handlers are now set up in XAML, no need for additional setup
         }
 
         private void SetupUI()
@@ -55,13 +49,16 @@ namespace AirlineSystem
             HeaderSubtitle.Text = "Manage and view all flight information";
             SearchPlaceholder.Text = "🔍 Search flights...";
             AddNewButton.Content = "➕ Add Flight";
-
-            // Columns are already set up in XAML for flights
         }
 
         private void SetupPassengerUI()
         {
-            // Clear existing columns and add passenger columns
+            HeaderIcon.Text = "👤";
+            HeaderTitle.Text = "ALL PASSENGERS";
+            HeaderSubtitle.Text = "Manage and view all passenger information";
+            SearchPlaceholder.Text = "🔍 Search passengers...";
+            AddNewButton.Content = "➕ Add Passenger";
+
             MainDataGrid.Columns.Clear();
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Full Name", Binding = new System.Windows.Data.Binding("Name"), Width = 200 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Email", Binding = new System.Windows.Data.Binding("Email"), Width = 200 });
@@ -73,16 +70,19 @@ namespace AirlineSystem
 
         private void SetupTicketUI()
         {
-            // Clear existing columns and add ticket columns
+            HeaderIcon.Text = "🎫";
+            HeaderTitle.Text = "ALL TICKETS";
+            HeaderSubtitle.Text = "Manage and view all ticket information";
+            SearchPlaceholder.Text = "🔍 Search tickets...";
+            AddNewButton.Content = "➕ Issue Ticket";
+
             MainDataGrid.Columns.Clear();
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Ticket ID", Binding = new System.Windows.Data.Binding("TicketId"), Width = 120 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Passenger", Binding = new System.Windows.Data.Binding("NamePass"), Width = 180 });
-             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Phone Number", Binding = new System.Windows.Data.Binding("PassengerPhone"), Width = 130 });
+            MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Phone Number", Binding = new System.Windows.Data.Binding("PassengerPhone"), Width = 130 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Flight", Binding = new System.Windows.Data.Binding("FlightNumber"), Width = 130 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Class", Binding = new System.Windows.Data.Binding("TicketTypeName"), Width = 100 });
-            MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Seat", Binding = new System.Windows.Data.Binding("SeatNumber"), Width = 80 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Price", Binding = new System.Windows.Data.Binding("TicketPrice") { StringFormat = "${0:N2}" }, Width = 100 });
-            MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Status", Binding = new System.Windows.Data.Binding("Status"), Width = 100 });
             AddActionColumn();
         }
 
@@ -111,6 +111,7 @@ namespace AirlineSystem
             editButton.SetValue(Button.BorderThicknessProperty, new Thickness(0));
             editButton.SetValue(Button.PaddingProperty, new Thickness(6, 4, 6, 4));
             editButton.SetValue(Button.ToolTipProperty, "Edit");
+            editButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(EditButton_Click));
 
             editBorder.AppendChild(editButton);
 
@@ -127,6 +128,7 @@ namespace AirlineSystem
             deleteButton.SetValue(Button.BorderThicknessProperty, new Thickness(0));
             deleteButton.SetValue(Button.PaddingProperty, new Thickness(6, 4, 6, 4));
             deleteButton.SetValue(Button.ToolTipProperty, "Delete");
+            deleteButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(DeleteButton_Click));
 
             deleteBorder.AppendChild(deleteButton);
 
@@ -139,6 +141,180 @@ namespace AirlineSystem
             MainDataGrid.Columns.Add(actionColumn);
         }
 
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var item = (button?.Parent as Border)?.DataContext;
+
+            if (item == null) return;
+
+            switch (currentDataType)
+            {
+                case DataType.Flights:
+                    EditFlight(item as Flight);
+                    break;
+                case DataType.Passengers:
+                    EditPassenger(item as Passenger);
+                    break;
+                case DataType.Tickets:
+                    EditTicket(item as Ticket);
+                    break;
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var item = (button?.Parent as Border)?.DataContext;
+
+            if (item == null) return;
+
+            var result = MessageBox.Show(
+                "Are you sure you want to delete this item?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                switch (currentDataType)
+                {
+                    case DataType.Flights:
+                        DeleteFlight(item as Flight);
+                        break;
+                    case DataType.Passengers:
+                        DeletePassenger(item as Passenger);
+                        break;
+                    case DataType.Tickets:
+                        DeleteTicket(item as Ticket);
+                        break;
+                }
+            }
+        }
+
+        private void EditFlight(Flight flight)
+        {
+            if (flight == null) return;
+            var dialog = new EditDialog(flight) { Owner = Window.GetWindow(this) };
+            if (dialog.ShowDialog() == true)
+            {
+                LoadData();
+                airlineManager.SaveFlightsToCsv(@"..\..\..\UserData\FlightData.csv");   // lưu lại
+            }
+        }
+
+        private void EditPassenger(Passenger passenger)
+        {
+            if (passenger == null) return;
+            var dialog = new EditDialog(passenger) { Owner = Window.GetWindow(this) };
+            if (dialog.ShowDialog() == true)
+            {
+                LoadData();
+                airlineManager.SavePassengersToCsv(@"..\..\..\UserData\Passenger.csv"); // lưu lại
+            }
+        }
+
+
+        private void EditTicket(Ticket ticket)
+        {
+            if (ticket == null) return;
+            var dialog = new EditDialog(ticket) { Owner = Window.GetWindow(this) };
+            if (dialog.ShowDialog() == true)
+            {
+                LoadData();
+                airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");   // lưu lại
+                airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv"); // đồng bộ booking
+            }
+        }
+
+        private void DeleteFlight(Flight flight)
+        {
+            if (flight == null) return;
+
+            try
+            {
+                airlineManager.Flights.Remove(flight);
+
+                // Lưu lại CSV
+                airlineManager.SaveFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
+                airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
+
+                LoadData();
+                MessageBox.Show($"Flight {flight.FlightNumber} has been deleted successfully.",
+                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting flight: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private void DeletePassenger(Passenger passenger)
+        {
+            if (passenger == null) return;
+
+            try
+            {
+                // Nếu passenger có vé thì hỏi trước
+                var hasTickets = airlineManager.Tickets.Any(t => t.PassengerPhone == passenger.PhoneNumber);
+                if (hasTickets)
+                {
+                    var result = MessageBox.Show(
+                        "This passenger has existing tickets. Deleting will also remove all associated tickets. Continue?",
+                        "Warning",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning);
+
+                    if (result == MessageBoxResult.No) return;
+
+                    // Xóa hết vé liên quan
+                    airlineManager.Tickets.RemoveAll(t => t.PassengerPhone == passenger.PhoneNumber);
+                    airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
+                    airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
+                }
+
+                // Xóa passenger
+                airlineManager.Passengers.Remove(passenger);
+                airlineManager.SavePassengersToCsv("Passenger.csv");
+
+                LoadData();
+                MessageBox.Show($"Passenger {passenger.Name} has been deleted successfully.",
+                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting passenger: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        private void DeleteTicket(Ticket ticket)
+        {
+            if (ticket == null) return;
+
+            try
+            {
+                airlineManager.Tickets.Remove(ticket);
+
+                // Lưu lại CSV
+                airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
+                airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
+
+                LoadData();
+                MessageBox.Show($"Ticket {ticket.TicketId} has been deleted successfully.",
+                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting ticket: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
         private void LoadData()
         {
             try
@@ -147,18 +323,21 @@ namespace AirlineSystem
                 {
                     case DataType.Flights:
                         var flights = airlineManager.Flights;
+                        MainDataGrid.ItemsSource = null;
                         MainDataGrid.ItemsSource = flights;
                         UpdateRecordCount($"Showing {flights.Count} flights");
                         break;
 
                     case DataType.Passengers:
                         var passengers = airlineManager.Passengers;
+                        MainDataGrid.ItemsSource = null;
                         MainDataGrid.ItemsSource = passengers;
                         UpdateRecordCount($"Showing {passengers.Count} passengers");
                         break;
 
                     case DataType.Tickets:
                         var tickets = airlineManager.Tickets;
+                        MainDataGrid.ItemsSource = null;
                         MainDataGrid.ItemsSource = tickets;
                         UpdateRecordCount($"Showing {tickets.Count} tickets");
                         break;
@@ -176,7 +355,6 @@ namespace AirlineSystem
             RecordCount.Text = text;
         }
 
-        // Event handlers for buttons
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = Window.GetWindow(this) as MainWindow;
@@ -192,39 +370,90 @@ namespace AirlineSystem
 
         private void AddNewButton_Click(object sender, RoutedEventArgs e)
         {
-            string message = currentDataType switch
+            string type = currentDataType switch
             {
-                DataType.Flights => "Add new flight functionality will be implemented here.",
-                DataType.Passengers => "Add new passenger functionality will be implemented here.",
-                DataType.Tickets => "Issue new ticket functionality will be implemented here.",
-                _ => "Add functionality will be implemented here."
+                DataType.Flights => "Flight",
+                DataType.Passengers => "Passenger",
+                DataType.Tickets => "Ticket",
+                _ => ""
             };
 
-            MessageBox.Show(message, "Add New",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            var dialog = new AddDialog(type, airlineManager) { Owner = Window.GetWindow(this) };
+            if (dialog.ShowDialog() == true)
+            {
+                LoadData();
+                MessageBox.Show($"{type} added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
+
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Implement search functionality
             SearchPlaceholder.Visibility = string.IsNullOrEmpty(SearchBox.Text)
                 ? Visibility.Visible
                 : Visibility.Hidden;
 
-            // Add actual search logic here
-            // FilterDataBySearch(SearchBox.Text);
+            FilterDataBySearch(SearchBox.Text);
         }
 
         private void FilterDataBySearch(string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                LoadData(); // Reload all data
+                LoadData();
                 return;
             }
 
-            // Implement search filtering based on current data type
-            // This is a placeholder - implement according to your data structure
+            searchTerm = searchTerm.Trim().ToLower();
+
+            try
+            {
+                switch (currentDataType)
+                {
+                    case DataType.Flights:
+                        var filteredFlights = airlineManager.Flights.Where(f =>
+                            f.FlightNumber.ToLower().Contains(searchTerm) ||
+                            f.Departure.ToLower().Contains(searchTerm) ||
+                            f.Destination.ToLower().Contains(searchTerm) ||
+                            f.Status.ToString().ToLower().Contains(searchTerm) ||
+                            f.DepartureTime.ToString("MM/dd/yyyy").Contains(searchTerm)).ToList();
+                        MainDataGrid.ItemsSource = null;
+                        MainDataGrid.ItemsSource = filteredFlights;
+                        UpdateRecordCount($"Showing {filteredFlights.Count} of {airlineManager.Flights.Count} flights");
+                        break;
+
+                    case DataType.Passengers:
+                        var filteredPassengers = airlineManager.Passengers.Where(p =>
+                            p.Name.ToLower().Contains(searchTerm) ||
+                            p.Email.ToLower().Contains(searchTerm) ||
+                            p.PhoneNumber.Contains(searchTerm) ||
+                            p.Age.ToString().Contains(searchTerm) ||
+                            p.Gender.ToString().ToLower().Contains(searchTerm)).ToList();
+                        MainDataGrid.ItemsSource = null;
+                        MainDataGrid.ItemsSource = filteredPassengers;
+                        UpdateRecordCount($"Showing {filteredPassengers.Count} of {airlineManager.Passengers.Count} passengers");
+                        break;
+
+                    case DataType.Tickets:
+                        var filteredTickets = airlineManager.Tickets.Where(t =>
+                            t.TicketId.ToLower().Contains(searchTerm) ||
+                            t.NamePass.ToLower().Contains(searchTerm) ||
+                            t.FlightNumber.ToLower().Contains(searchTerm) ||
+                            t.PassengerPhone.Contains(searchTerm) ||
+                            t.TicketTypeName.ToLower().Contains(searchTerm) ||
+                            t.TicketPrice.ToString("N2").Contains(searchTerm)).ToList();
+                        MainDataGrid.ItemsSource = null;
+                        MainDataGrid.ItemsSource = filteredTickets;
+                        UpdateRecordCount($"Showing {filteredTickets.Count} of {airlineManager.Tickets.Count} tickets");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error filtering data: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                LoadData(); // Fallback to show all data
+            }
         }
     }
 }

@@ -83,13 +83,23 @@
                 <!--  Search Box  -->
                 <Border
                     Grid.Column="0"
+                    Width="450"
                     MaxWidth="400"
                     Padding="12,8"
                     HorizontalAlignment="Left"
                     Background="#FFF8F9FA"
                     BorderBrush="#FFE0E6ED"
                     BorderThickness="1"
-                    CornerRadius="8">
+                    CornerRadius="8"
+                    RenderTransformOrigin="0.5,0.5">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform AngleY="-0.048" />
+                            <RotateTransform />
+                            <TranslateTransform Y="-0.199" />
+                        </TransformGroup>
+                    </Border.RenderTransform>
                     <Grid>
                         <TextBox
                             x:Name="SearchBox"
@@ -113,18 +123,7 @@
                     Grid.Column="1"
                     Margin="15,0,10,0"
                     Background="#FF50C878"
-                    CornerRadius="8">
-                    <Button
-                        x:Name="FilterButton"
-                        Padding="15,8"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Click="FilterButton_Click"
-                        Content="🔽 Filter"
-                        FontSize="14"
-                        FontWeight="SemiBold"
-                        Foreground="White" />
-                </Border>
+                    CornerRadius="8" />
 
                 <!--  Add New Button  -->
                 <Border
@@ -264,9 +263,11 @@
                                         Background="#FF4A90E2"
                                         CornerRadius="4">
                                         <Button
+                                            x:Name="Edit"
                                             Padding="6,4"
                                             Background="Transparent"
                                             BorderThickness="0"
+                                            Click="EditButton_Click"
                                             Content="✏️"
                                             FontSize="12"
                                             Foreground="White"
@@ -277,9 +278,11 @@
                                         Background="#FFDC3545"
                                         CornerRadius="4">
                                         <Button
+                                            x:Name="Delete"
                                             Padding="6,4"
                                             Background="Transparent"
                                             BorderThickness="0"
+                                            Click="DeleteButton_Click"
                                             Content="🗑️"
                                             FontSize="12"
                                             Foreground="White"
