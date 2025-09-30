@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
     public class FirstClassTicket : Ticket
     {
-        public FirstClassTicket(Passenger passenger, Flight flight, string ticketId = null)
-            : base(passenger, flight, ticketId)
+    public FirstClassTicket(Passenger passenger, Flight flight, string ticketId = null, string seat = null)
+            : base(passenger, flight, ticketId, seat)
         {
             TicketTypeChar = 'f';
         }
 
         protected override double CalculatePrice()
         {
-            return 1.1;
+            return 800 * 1.1;
         }
 
         public override void Print()

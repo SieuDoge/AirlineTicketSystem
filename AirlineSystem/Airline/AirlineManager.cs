@@ -117,7 +117,7 @@ namespace AirlineTicketSystem
                         sw.WriteLine($"{ticket.TicketId},{passenger.Name},{passenger.Email},{passenger.PhoneNumber}," +
                                      $"{passenger.Gender},{passenger.Age},{flight.GetFlightNumber()},{flight.GetDeparture()}," +
                                      $"{flight.GetDestination()},{flight.GetDepartureTime():yyyy-MM-dd HH:mm}," +
-                                     $"{flight.GetAvailableSeats()},{ticket.TicketTypeChar},{ticket.TicketPrice},{(int)flight.Status}");
+                                     $"{ticket.Seat},{ticket.TicketTypeChar},{ticket.TicketPrice},{(int)flight.Status}");
                         recordCount++;
                     }
                 }
@@ -148,7 +148,7 @@ namespace AirlineTicketSystem
                     string[] cols = line.Split(',');
                     try
                     {
-                        if (cols.Length >= 14)
+                        if (cols.Length >= 15)
                         {
                             string ticketId = cols[0].Trim();
                             string name = cols[1].Trim();
@@ -160,10 +160,11 @@ namespace AirlineTicketSystem
                             string departure = cols[7].Trim();
                             string destination = cols[8].Trim();
                             DateTime departureDate = DateTime.Parse(cols[9].Trim());
-                            int seats = Convert.ToInt32(cols[10].Trim());
+                            int aseats = Convert.ToInt32(cols[10].Trim());
                             char ticketType = Convert.ToChar(cols[11].Trim());
                             double price = Convert.ToDouble(cols[12].Trim());
-                            int statusInt = int.Parse(cols[13].Trim());
+                            string seat = cols[13].Trim();
+                            int statusInt = int.Parse(cols[14].Trim());
 
                             FlightStatus status;
                             if (Enum.IsDefined(typeof(FlightStatus), statusInt))
@@ -172,7 +173,7 @@ namespace AirlineTicketSystem
                                 status = FlightStatus.Scheduled;
 
                             addPassenger(new Passenger(name, email, gender, age, phone));
-                            addFlight(new Flight(flightNumber, departure, destination, departureDate, seats, status));
+                            addFlight(new Flight(flightNumber, departure, destination, departureDate, aseats, status));
 
                             var passenger = passengers.FirstOrDefault(p => p.PhoneNumber == phone);
                             var flight = flights.FirstOrDefault(f => f.GetFlightNumber() == flightNumber);
@@ -180,9 +181,9 @@ namespace AirlineTicketSystem
                             {
                                 Ticket t = ticketType switch
                                 {
-                                    'e' => new EconomyTicket(passenger, flight, ticketId),
-                                    'b' => new BusinessTicket(passenger, flight, ticketId),
-                                    'f' => new FirstClassTicket(passenger, flight, ticketId),
+                                    'e' => new EconomyTicket(passenger, flight, ticketId, seat),
+                                    'b' => new BusinessTicket(passenger, flight, ticketId, seat),
+                                    'f' => new FirstClassTicket(passenger, flight, ticketId, seat),
                                     _ => null
                                 };
                                 if (t != null) addTicket(t);
@@ -285,13 +286,14 @@ namespace AirlineTicketSystem
                     string[] cols = line.Split(',');
                     try
                     {
-                        if (cols.Length >= 5)
+                        if (cols.Length >= 6)
                         {
                             string ticketId = cols[0].Trim();
                             double price = Convert.ToDouble(cols[1].Trim());
                             char ticketType = Convert.ToChar(cols[2].Trim());
                             string passengerPhone = cols[3].Trim();
                             string flightNumber = cols[4].Trim();
+                            string seat = cols[5].Trim();
 
                             var passenger = passengers.FirstOrDefault(p => p.PhoneNumber == passengerPhone);
                             var flight = flights.FirstOrDefault(f => f.GetFlightNumber() == flightNumber);
@@ -303,9 +305,9 @@ namespace AirlineTicketSystem
 
                             Ticket t = ticketType switch
                             {
-                                'e' => new EconomyTicket(passenger, flight, ticketId),
-                                'b' => new BusinessTicket(passenger, flight, ticketId),
-                                'f' => new FirstClassTicket(passenger, flight, ticketId),
+                                'e' => new EconomyTicket(passenger, flight, ticketId, seat),
+                                'b' => new BusinessTicket(passenger, flight, ticketId, seat),
+                                'f' => new FirstClassTicket(passenger, flight, ticketId, seat),
                                 _ => null
                             };
                             if (t != null)
@@ -355,11 +357,11 @@ namespace AirlineTicketSystem
             {
                 using (StreamWriter sw = new StreamWriter(filename, false))
                 {
-                    sw.WriteLine("TicketId,Price,TicketType,PassengerPhone,FlightNumber");
+                    sw.WriteLine("TicketId,Price,TicketType,PassengerPhone,FlightNumber, Seat");
                     foreach (var t in tickets)
                     {
                         sw.WriteLine(
-                            $"{t.TicketId},{t.TicketPrice},{t.TicketTypeChar},{t.PassengerPhone},{t.FlightNumber}");
+                            $"{t.TicketId},{t.TicketPrice},{t.TicketTypeChar},{t.PassengerPhone},{t.FlightNumber},{t.Seat}");
                     }
                 }
             }
@@ -433,5 +435,57 @@ namespace AirlineTicketSystem
                 Console.WriteLine($"Export passenger failed: {ex.Message}");
             }
         }
+
+
+        public void SaveFlightsToCsv(string path)
+        {
+            using var writer = new StreamWriter(path);
+            writer.WriteLine("FlightNumber,Departure,Destination,DepartureTime,AvailableSeats,Status");
+            foreach (var f in Flights)
+            {
+                writer.WriteLine($"{f.FlightNumber},{f.Departure},{f.Destination}," +
+                                 $"{f.DepartureTime:yyyy-MM-dd HH:mm},{f.GetAvailableSeats()},{(int)f.Status}");
+            }
+        }
+
+        public void SavePassengersToCsv(string path)
+        {
+            using var writer = new StreamWriter(path);
+            writer.WriteLine("Name,PhoneNumber,Email,Age,Gender");
+            foreach (var p in Passengers)
+            {
+                writer.WriteLine($"{p.Name},{p.PhoneNumber},{p.Email},{p.Age},{p.Gender}");
+            }
+        }
+
+        public void SaveTicketsToCsv(string path)
+        {
+            using var writer = new StreamWriter(path);
+            writer.WriteLine("TicketId,Price,TicketType,PassengerPhone,FlightNumber,Seat");
+            foreach (var t in Tickets)
+            {
+                writer.WriteLine($"{t.TicketId},{t.TicketPrice},{t.TicketTypeChar},{t.PassengerPhone},{t.FlightNumber},{t.Seat}");
+            }
+        }
+
+        public void SaveAirlineDataToCsv(string path)
+        {
+            using var writer = new StreamWriter(path);
+            writer.WriteLine("TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price,Status");
+
+            foreach (var t in Tickets)
+            {
+                var p = Passengers.FirstOrDefault(x => x.PhoneNumber == t.PassengerPhone);
+                var f = Flights.FirstOrDefault(x => x.FlightNumber == t.FlightNumber);
+
+                if (p != null && f != null)
+                {
+                    writer.WriteLine($"{t.TicketId},{p.Name},{p.Email},{p.PhoneNumber},{p.Gender},{p.Age}," +
+                                     $"{f.FlightNumber},{f.Departure},{f.Destination},{f.DepartureTime:yyyy-MM-dd HH:mm}," +
+                                     $"{t.Seat},{t.TicketTypeChar},{t.TicketPrice},{(int)f.Status}");
+                }
+            }
+        }
+
     }
 }

@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
     public class EconomyTicket : Ticket
     {
-        public EconomyTicket(Passenger passenger, Flight flight, string ticketId = null)
-            : base(passenger, flight, ticketId)
+        public EconomyTicket(Passenger passenger, Flight flight, string ticketId = null, string seat = null)
+            : base(passenger, flight, ticketId, seat)
         {
             TicketTypeChar = 'e';
         }
 
         protected override double CalculatePrice()
         {
-            return 1.1;
+            return 200 * 1.1;
         }
 
         public override void Print()
