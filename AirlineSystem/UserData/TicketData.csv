@@ -1,2 +1,2 @@
-TicketId,Price,TicketType,PassengerPhone,FlightNumber,Seats
-TK186763,400,b,0816657483,VN112
+TicketId,Price,TicketType,PassengerPhone,FlightNumber, Seat
+TK148617,880.0000000000001,f,0123456789,VN102,1B
