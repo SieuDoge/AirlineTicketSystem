@@ -9,32 +9,17 @@ namespace AirlineSystem
         private AirlineManager airlineManager;
         private Flight selectedFlight;
 
-
-        public event Action<string> DataSent;
-
-        private void LoadData()
+        // THAY ĐỔI: Constructor nhận airlineManager từ MainWindow
+        public BookTicket(AirlineManager manager)
         {
-            try
-            {
-                airlineManager = new AirlineManager();
+            InitializeComponent();
+            this.airlineManager = manager; // Sử dụng manager chung từ MainWindow
 
-                // Load existing data
-                string flightFile = @"..\..\..\UserData\FlightData.csv";
-                string ticketFile = @"..\..\..\UserData\TicketData.csv";
-                string allDataFile = @"..\..\..\UserData\AirlineData.csv";
-
-
-                if (System.IO.File.Exists(flightFile))
-                    airlineManager.ImportFlightsFromCSV(flightFile);
-                if (System.IO.File.Exists(ticketFile))
-                    airlineManager.ImportTicketsFromCSV(ticketFile);
-                if (System.IO.File.Exists(allDataFile))
-                    airlineManager.importFormExcel(allDataFile);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            // Wire up event handlers
+            Select_Flight.Click += SelectFlight_Click;
+            Checkout.Click += Checkout_Click;
+            Back.Click += Back_Click;
+            Exit.Click += Exit_Click;
         }
 
         private void SelectFlight_Click(object sender, RoutedEventArgs e)
@@ -60,6 +45,7 @@ namespace AirlineSystem
         public string GetFlightNumber { get; set; }
         public string GetDeparture { get; set; }
         public string GetDestination { get; set; }
+
         public void FlightSelected(Flight flight)
         {
             GetFlightNumber = flight.GetFlightNumber();
@@ -97,10 +83,6 @@ namespace AirlineSystem
 
                 // Navigate to checkout
                 NavigateToCheckout(passenger, ticket);
-
-                // Page Checkout
-
-                
             }
             catch (Exception ex)
             {
@@ -214,18 +196,6 @@ namespace AirlineSystem
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        public BookTicket()
-        {
-            InitializeComponent();
-            LoadData();
-            // Wire up event handlers
-
-            Select_Flight.Click += SelectFlight_Click;
-            Checkout.Click += Checkout_Click;
-            Back.Click += Back_Click;
-            Exit.Click += Exit_Click;
         }
     }
 }

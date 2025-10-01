@@ -7,31 +7,50 @@ namespace AirlineSystem
     public partial class MainWindow : Window
     {
         private AirlineManager manager;
+
         public MainWindow()
         {
             InitializeComponent();
             manager = new AirlineManager();
+            LoadAllData();
+            WireUpSearchButton(); // Add this line
+        }
+
+        private void LoadAllData()
+        {
             string flightFile = @"..\..\..\UserData\FlightData.csv";
-            string passengerFile = @"..\..\..\UserData\Passenger.csv"; 
+            string passengerFile = @"..\..\..\UserData\Passenger.csv";
             string ticketFile = @"..\..\..\UserData\TicketData.csv";
             string allDataFile = @"..\..\..\UserData\AirlineData.csv";
 
             // Import in correct order
             manager.ImportFlightsFromCSV(flightFile);
-            manager.ImportPassengerFormCSV(passengerFile); // Import passengers first
-            manager.ImportTicketsFromCSV(ticketFile); // Then tickets
-            manager.importFormExcel(allDataFile); // This will add more data
+            manager.ImportPassengerFormCSV(passengerFile);
+            manager.ImportTicketsFromCSV(ticketFile);
+            manager.importFormExcel(allDataFile);
 
             Console.WriteLine($"Loaded: {manager.GetTotalFlights()} flights, {manager.GetTotalPassengers()} passengers, {manager.GetTotalTickets()} tickets");
+        }
 
+        // Add method to wire up search button
+        private void WireUpSearchButton()
+        {
+            SearchButton.Click += Load_Search;
+        }
+
+        // Thêm method để reload data sau khi book ticket
+        public void ReloadData()
+        {
+            LoadAllData();
         }
 
         private void Load_BookTicket(object sender, RoutedEventArgs e)
         {
             try
             {
-                FullScreenBT.Content = new BookTicket();
-                ShowFullScreenMode(); // Ẩn menu, content → chỉ hiển thị BookTicket full cửa sổ
+                // QUAN TRỌNG: Truyền manager chung vào BookTicket
+                FullScreenBT.Content = new BookTicket(manager);
+                ShowFullScreenMode();
             }
             catch (System.Exception ex)
             {
@@ -40,12 +59,13 @@ namespace AirlineSystem
             }
         }
 
-
         private void Load_Manager(object sender, RoutedEventArgs e)
         {
             try
             {
-                FullScreenBT.Content = new Manager(manager); // Use the field
+                // Reload data trước khi vào Manager để đảm bảo data mới nhất
+                ReloadData();
+                FullScreenBT.Content = new Manager(manager);
                 ShowFullScreenMode();
             }
             catch (System.Exception ex)
@@ -54,7 +74,24 @@ namespace AirlineSystem
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-       
+
+        // Add Search loading method
+        private void Load_Search(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Reload data để đảm bảo có data mới nhất
+                ReloadData();
+                FullScreenBT.Content = new Search(manager);
+                ShowFullScreenMode();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Error loading Search: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void BackToMenu_Click(object sender, RoutedEventArgs e)
         {
             BackToMenu();
@@ -74,7 +111,6 @@ namespace AirlineSystem
 
         private void ShowMenuMode()
         {
-            // Show menu panel and content area
             MenuPanel.Visibility = Visibility.Visible;
             FullScreenContent.Visibility = Visibility.Collapsed;
             BackButton.Visibility = Visibility.Collapsed;
@@ -82,13 +118,9 @@ namespace AirlineSystem
 
         private void ShowFullScreenMode()
         {
-            // Hide menu panel, show full screen content
             MenuPanel.Visibility = Visibility.Visible;
             FullScreenContent.Visibility = Visibility.Visible;
             BackButton.Visibility = Visibility.Visible;
-            //FooterBorder.Visibility = Visibility.Collapsed;
-            //HeaderBorder.Visibility = Visibility.Collapsed;
         }
-       
     }
 }
