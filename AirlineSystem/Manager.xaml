@@ -419,7 +419,7 @@
                                     Width="70"
                                     Height="70"
                                     Margin="0,0,0,15"
-                                    Background="#FFF3F4F6"
+                                    Background="#FF548DFF"
                                     CornerRadius="35">
                                     <TextBlock
                                         HorizontalAlignment="Center"
@@ -505,11 +505,12 @@
                                     Width="70"
                                     Height="70"
                                     Margin="0,0,0,15"
-                                    Background="#FFECFDF5"
+                                    Background="#FF53F1A7"
                                     CornerRadius="35">
                                     <TextBlock
+                                        Margin="0,8,0,0"
                                         HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
+                                        VerticalAlignment="Top"
                                         FontSize="36"
                                         Text="👥" />
                                 </Border>
@@ -591,7 +592,7 @@
                                     Width="70"
                                     Height="70"
                                     Margin="0,0,0,15"
-                                    Background="#FFFEF3E2"
+                                    Background="#FFFCDBA8"
                                     CornerRadius="35">
                                     <TextBlock
                                         HorizontalAlignment="Center"
@@ -676,13 +677,13 @@
                                     Width="70"
                                     Height="70"
                                     Margin="0,0,0,15"
-                                    Background="#FFFCE7F3"
+                                    Background="#FFFF0808"
                                     CornerRadius="35">
                                     <TextBlock
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         FontSize="36"
-                                        Text="➕" />
+                                        Text="❗" />
                                 </Border>
                                 <TextBlock
                                     Margin="0,0,0,8"
@@ -691,12 +692,12 @@
                                     FontSize="18"
                                     FontWeight="Bold"
                                     Foreground="#FF1F2937"
-                                    Text="ADD NEW FLIGHT" />
+                                    Text="UPDATING....." />
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     FontSize="12"
                                     Foreground="#FF6B7280"
-                                    Text="Create new flights"
+                                    Text="COMING SOON"
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </StackPanel>

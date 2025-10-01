@@ -82,6 +82,7 @@ namespace AirlineSystem
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Phone Number", Binding = new System.Windows.Data.Binding("PassengerPhone"), Width = 130 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Flight", Binding = new System.Windows.Data.Binding("FlightNumber"), Width = 130 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Class", Binding = new System.Windows.Data.Binding("TicketTypeName"), Width = 100 });
+            MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Seat Number", Binding = new System.Windows.Data.Binding("Seat"), Width = 130 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Price", Binding = new System.Windows.Data.Binding("TicketPrice") { StringFormat = "${0:N2}" }, Width = 100 });
             AddActionColumn();
         }
@@ -277,7 +278,7 @@ namespace AirlineSystem
 
                 // Xóa passenger
                 airlineManager.Passengers.Remove(passenger);
-                airlineManager.SavePassengersToCsv("Passenger.csv");
+                airlineManager.SavePassengersToCsv(@"..\..\..\UserData\Passenger.csv");
 
                 LoadData();
                 MessageBox.Show($"Passenger {passenger.Name} has been deleted successfully.",
