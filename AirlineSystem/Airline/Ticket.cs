@@ -21,9 +21,14 @@ namespace AirlineTicketSystem
         public string TicketId => ticketId;
         public double TicketPrice => ticketPrice;
 
-        public string Seat { get; set; }
+        public string Seat
+        {
+            get => seat;
+            set => seat = value;
+        }
         public string PassengerPhone => passenger?.PhoneNumber ?? "";
         public string NamePass => passenger?.Name ?? "";
+
 
         public string FlightNumber => flight?.GetFlightNumber() ?? "";
 
