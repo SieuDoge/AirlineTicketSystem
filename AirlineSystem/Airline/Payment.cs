@@ -2,7 +2,7 @@ using System;
 
 namespace AirlineTicketSystem
 {
-    public abstract class Payment
+    public abstract class Payment : IPayable, IPrintable, IValidatable
     {
         public string PaymentId { get; set; }
         public double Amount { get; protected set; }
@@ -18,6 +18,24 @@ namespace AirlineTicketSystem
         // trả về true nếu thanh toán thành công
         public abstract bool Process();
         public abstract void Print();
+
+        public bool Pay()
+        {
+            return Process();
+        }
+
+        public string PaymentStatus => Status;
+
+        public bool IsValid(out string errorMessage)
+        {
+            if (Amount <= 0)
+            {
+                errorMessage = "Amount must be greater than 0.";
+                return false;
+            }
+            errorMessage = string.Empty;
+            return true;
+        }
     }
 
     public class CashPayment : Payment

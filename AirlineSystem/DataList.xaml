@@ -248,6 +248,7 @@
                         Width="140"
                         Binding="{Binding ArrivalTime, StringFormat='{}{0:MM/dd/yyyy HH:mm}'}"
                         Header="Arrival" />
+
                     <DataGridTextColumn
                         Width="100"
                         Binding="{Binding Status}"

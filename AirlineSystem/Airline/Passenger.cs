@@ -1,6 +1,6 @@
 namespace AirlineTicketSystem;
 //thấy chưa
-public class Passenger
+public class Passenger : IPrintable, ISearchable, IValidatable, IExportable
 {
     private string name;
     private string email;
@@ -102,6 +102,47 @@ public class Passenger
                           $"Phone: {PhoneNumber} - " +
                           $"Gender: {Gender} - " +
                           $"Age: {Age} - ");
+    }
+
+    public string ToCsvHeader()
+    {
+        return "Name,PhoneNumber,Email,Age,Gender";
+    }
+
+    public string ToCsvRow()
+    {
+        return $"{Name},{PhoneNumber},{Email},{Age},{Gender}";
+    }
+
+    public bool Matches(string term)
+    {
+        if (string.IsNullOrWhiteSpace(term)) return true;
+        term = term.Trim().ToLower();
+        return (Name?.ToLower().Contains(term) == true)
+               || (Email?.ToLower().Contains(term) == true)
+               || (PhoneNumber?.Contains(term) == true)
+               || Age.ToString().Contains(term)
+               || Gender.ToString().ToLower().Contains(term);
+    }
+
+    public bool IsValid(out string errorMessage)
+    {
+        try
+        {
+            // trigger property validations
+            Name = Name;
+            Email = Email;
+            PhoneNumber = PhoneNumber;
+            Gender = Gender;
+            Age = Age;
+            errorMessage = string.Empty;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            return false;
+        }
     }
 
     // Other methods and properties can be added as needed

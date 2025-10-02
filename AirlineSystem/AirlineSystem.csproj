@@ -9,14 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="font\Roboto-Italic-VariableFont_wdth,wght.ttf" />
-    <None Remove="font\Roboto-VariableFont_wdth,wght.ttf" />
     <None Remove="Image\plane.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="font\Roboto-Italic-VariableFont_wdth,wght.ttf" />
-    <Resource Include="font\Roboto-VariableFont_wdth,wght.ttf" />
     <Resource Include="Image\plane.png" />
   </ItemGroup>
 

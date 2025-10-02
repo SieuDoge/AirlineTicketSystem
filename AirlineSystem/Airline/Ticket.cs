@@ -1,6 +1,6 @@
 namespace AirlineTicketSystem
 {
-    public abstract class Ticket
+    public abstract class Ticket : IPrintable, IPriceable, ISearchable, IExportable, IValidatable
     {
         private string ticketId;
         private double ticketPrice;
@@ -34,6 +34,42 @@ namespace AirlineTicketSystem
 
         protected abstract double CalculatePrice();
         public abstract void Print();
+
+        public double GetPrice()
+        {
+            return TicketPrice;
+        }
+
+        public bool Matches(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term)) return true;
+            term = term.Trim().ToLower();
+            return (TicketId?.ToLower().Contains(term) == true)
+                   || (NamePass?.ToLower().Contains(term) == true)
+                   || (FlightNumber?.ToLower().Contains(term) == true)
+                   || (PassengerPhone?.Contains(term) == true)
+                   || (TicketTypeName?.ToLower().Contains(term) == true)
+                   || TicketPrice.ToString("N2").Contains(term);
+        }
+
+        public string ToCsvHeader()
+        {
+            return "TicketId,Price,TicketType,PassengerPhone,FlightNumber,Seat";
+        }
+
+        public string ToCsvRow()
+        {
+            return $"{TicketId},{TicketPrice},{TicketTypeChar},{PassengerPhone},{FlightNumber},{Seat}";
+        }
+
+        public bool IsValid(out string errorMessage)
+        {
+            if (string.IsNullOrWhiteSpace(TicketId)) { errorMessage = "TicketId required"; return false; }
+            if (passenger == null) { errorMessage = "Passenger required"; return false; }
+            if (flight == null) { errorMessage = "Flight required"; return false; }
+            errorMessage = string.Empty;
+            return true;
+        }
         public string TicketTypeName => TicketTypeChar switch
         {
             'e' => "Economy",

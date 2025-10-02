@@ -89,7 +89,7 @@ namespace AirlineSystem
 
                     var flight = new Flight(number, departure, destination, time, seats, Flight.FlightStatus.Scheduled);
                     airlineManager.addFlight(flight);
-                    airlineManager.SaveFlightsToCsv("FlightData.csv");
+                    airlineManager.SaveFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
                 }
                 else if (dataType == "Passenger")
                 {
@@ -101,7 +101,7 @@ namespace AirlineSystem
 
                     var passenger = new Passenger(name, email, gender, age, phone);
                     airlineManager.addPassenger(passenger);
-                    airlineManager.SavePassengersToCsv("Passenger.csv");
+                    airlineManager.SavePassengersToCsv(@"..\..\..\UserData\Passenger.csv");
                 }
                 else if (dataType == "Ticket")
                 {
@@ -128,8 +128,8 @@ namespace AirlineSystem
                     if (t != null)
                     {
                         airlineManager.addTicket(t);
-                        airlineManager.SaveTicketsToCsv("TicketData.csv");
-                        airlineManager.SaveAirlineDataToCsv("AirlineData.csv");
+                        airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
+                        airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
                     }
                 }
 
@@ -138,7 +138,8 @@ namespace AirlineSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding: {ex.Message}");
+                MessageBox.Show($"Error adding: {ex.Message}]\n" +
+                                $"Or you dont have permi");
             }
         }
 

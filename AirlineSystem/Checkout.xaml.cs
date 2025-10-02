@@ -18,6 +18,7 @@ namespace AirlineSystem
             // Register Event RadioButton
             CardPayment.Checked += CardPayment_Checked;
             CardPayment.Unchecked += CardPayment_Unchecked;
+            
 
             MoMoPayment.Checked += OtherPayment_Checked;
             CashPayment.Checked += OtherPayment_Checked;

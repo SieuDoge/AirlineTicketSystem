@@ -1,6 +1,6 @@
 namespace AirlineTicketSystem
 {
-    public class Flight
+    public class Flight : IPrintable, IExportable, ISearchable, IValidatable
     {
         private string flightNumber;
         private string departure;
@@ -66,6 +66,7 @@ namespace AirlineTicketSystem
         }
 
 
+        // Optional adapter to IBookable could be added at higher-level entity (ticket)
         public bool BookSeat()
         {
             if (availableSeats > 0)
@@ -82,6 +83,37 @@ namespace AirlineTicketSystem
                               $"Route: {GetDeparture()} -> {GetDestination()} - " +
                               $"Departure Time: {GetDepartureTime()} - " +
                               $"Available Seats: {GetAvailableSeats()}");
+        }
+
+        public string ToCsvHeader()
+        {
+            return "FlightNumber,Departure,Destination,DepartureTime,AvailableSeats,Status";
+        }
+
+        public string ToCsvRow()
+        {
+            return $"{GetFlightNumber()},{GetDeparture()},{GetDestination()},{GetDepartureTime():yyyy-MM-dd HH:mm},{GetAvailableSeats()},{(int)Status}";
+        }
+
+        public bool Matches(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term)) return true;
+            term = term.Trim().ToLower();
+            return (FlightNumber?.ToLower().Contains(term) == true)
+                   || (Departure?.ToLower().Contains(term) == true)
+                   || (Destination?.ToLower().Contains(term) == true)
+                   || Status.ToString().ToLower().Contains(term)
+                   || DepartureTime.ToString("MM/dd/yyyy").Contains(term);
+        }
+
+        public bool IsValid(out string errorMessage)
+        {
+            if (string.IsNullOrWhiteSpace(flightNumber)) { errorMessage = "Flight number cannot be empty."; return false; }
+            if (string.IsNullOrWhiteSpace(departure)) { errorMessage = "Departure cannot be empty."; return false; }
+            if (string.IsNullOrWhiteSpace(destination)) { errorMessage = "Destination cannot be empty."; return false; }
+            if (availableSeats < 0 || availableSeats > 500) { errorMessage = "Seats must be between 0 and 500."; return false; }
+            errorMessage = string.Empty;
+            return true;
         }
     }
 }

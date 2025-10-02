@@ -1,2 +1,1 @@
 TicketId,Name,Email,Phone,Gender,Age,FlightNumber,Departure,Destination,DepartureDate,SeatsNumber,TicketType,Price,Status
-TK148617,Huynh,@,0123456789,m,19,VN102,HN,DL,2025-10-01 13:30,1B,f,880.0000000000001,0

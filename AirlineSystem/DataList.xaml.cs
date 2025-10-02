@@ -412,37 +412,21 @@ namespace AirlineSystem
                 switch (currentDataType)
                 {
                     case DataType.Flights:
-                        var filteredFlights = airlineManager.Flights.Where(f =>
-                            f.FlightNumber.ToLower().Contains(searchTerm) ||
-                            f.Departure.ToLower().Contains(searchTerm) ||
-                            f.Destination.ToLower().Contains(searchTerm) ||
-                            f.Status.ToString().ToLower().Contains(searchTerm) ||
-                            f.DepartureTime.ToString("MM/dd/yyyy").Contains(searchTerm)).ToList();
+                        var filteredFlights = airlineManager.Flights.Where(f => (f as ISearchable)?.Matches(searchTerm) == true).ToList();
                         MainDataGrid.ItemsSource = null;
                         MainDataGrid.ItemsSource = filteredFlights;
                         UpdateRecordCount($"Showing {filteredFlights.Count} of {airlineManager.Flights.Count} flights");
                         break;
 
                     case DataType.Passengers:
-                        var filteredPassengers = airlineManager.Passengers.Where(p =>
-                            p.Name.ToLower().Contains(searchTerm) ||
-                            p.Email.ToLower().Contains(searchTerm) ||
-                            p.PhoneNumber.Contains(searchTerm) ||
-                            p.Age.ToString().Contains(searchTerm) ||
-                            p.Gender.ToString().ToLower().Contains(searchTerm)).ToList();
+                        var filteredPassengers = airlineManager.Passengers.Where(p => (p as ISearchable)?.Matches(searchTerm) == true).ToList();
                         MainDataGrid.ItemsSource = null;
                         MainDataGrid.ItemsSource = filteredPassengers;
                         UpdateRecordCount($"Showing {filteredPassengers.Count} of {airlineManager.Passengers.Count} passengers");
                         break;
 
                     case DataType.Tickets:
-                        var filteredTickets = airlineManager.Tickets.Where(t =>
-                            t.TicketId.ToLower().Contains(searchTerm) ||
-                            t.NamePass.ToLower().Contains(searchTerm) ||
-                            t.FlightNumber.ToLower().Contains(searchTerm) ||
-                            t.PassengerPhone.Contains(searchTerm) ||
-                            t.TicketTypeName.ToLower().Contains(searchTerm) ||
-                            t.TicketPrice.ToString("N2").Contains(searchTerm)).ToList();
+                        var filteredTickets = airlineManager.Tickets.Where(t => (t as ISearchable)?.Matches(searchTerm) == true).ToList();
                         MainDataGrid.ItemsSource = null;
                         MainDataGrid.ItemsSource = filteredTickets;
                         UpdateRecordCount($"Showing {filteredTickets.Count} of {airlineManager.Tickets.Count} tickets");
