@@ -357,52 +357,53 @@
                     </Grid>
                 </Border>
 
-                <!--  QR Code Section  -->
+                <!--  QR Code Section - UPDATED WITH REAL QR CODE  -->
                 <Border
                     Margin="0,0,0,20"
                     Padding="20"
                     Background="White"
+                    BorderBrush="#FFE0E0E0"
+                    BorderThickness="1"
                     CornerRadius="15">
+                    <Border.Effect>
+                        <DropShadowEffect
+                            BlurRadius="10"
+                            Direction="315"
+                            Opacity="0.2"
+                            ShadowDepth="5"
+                            Color="#22000000" />
+                    </Border.Effect>
                     <StackPanel HorizontalAlignment="Center">
                         <TextBlock
-                            Margin="0,0,0,10"
+                            Margin="0,0,0,15"
                             HorizontalAlignment="Center"
-                            FontSize="12"
+                            FontSize="14"
                             FontWeight="Bold"
                             Foreground="#FF666666"
-                            Text="QR CODE FOR CHECK-IN" />
+                            Text="SCAN QR CODE FOR CHECK-IN" />
 
-                        <!--  Mock QR Code  -->
+                        <!--  Real QR Code Image  -->
                         <Border
-                            Width="120"
-                            Height="120"
-                            Background="#FF333333"
+                            Padding="10"
+                            Background="White"
+                            BorderBrush="#FFE0E0E0"
+                            BorderThickness="2"
                             CornerRadius="8">
-                            <Grid>
-                                <Rectangle Margin="20" Fill="White" />
-                                <Rectangle
-                                    Width="8"
-                                    Height="8"
-                                    Margin="30,30,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Fill="#FF333333" />
-                                <Rectangle
-                                    Width="8"
-                                    Height="8"
-                                    Margin="50,30,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Fill="#FF333333" />
-                                <Rectangle
-                                    Width="8"
-                                    Height="8"
-                                    Margin="70,30,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Fill="#FF333333" />
-                            </Grid>
+                            <Image
+                                x:Name="QRCodeImage"
+                                Width="180"
+                                Height="180"
+                                Stretch="Uniform" />
                         </Border>
+
+                        <TextBlock
+                            Margin="0,15,0,0"
+                            HorizontalAlignment="Center"
+                            FontSize="11"
+                            Foreground="#FF999999"
+                            Text="Present this code at the airport check-in counter"
+                            TextWrapping="Wrap"
+                            TextAlignment="Center" />
                     </StackPanel>
                 </Border>
 
@@ -419,9 +420,11 @@
                         Background="#FF4A90E2"
                         CornerRadius="8">
                         <Button
-                            Height="45"
+                            x:Name="EmailTicket"
+                            Height="50"
                             Background="Transparent"
                             BorderThickness="0"
+                            Click="EmailTicket_Click"
                             Content="📧 Email Ticket"
                             FontSize="14"
                             FontWeight="SemiBold"
@@ -433,9 +436,11 @@
                         Background="#FF4CAF50"
                         CornerRadius="8">
                         <Button
-                            Height="45"
+                            x:Name="DownloadPDF"
+                            Height="50"
                             Background="Transparent"
                             BorderThickness="0"
+                            Click="DownloadPDF_Click"
                             Content="📱 Download PDF"
                             FontSize="14"
                             FontWeight="SemiBold"
@@ -449,10 +454,12 @@
                     Background="#FFE0E0E0"
                     CornerRadius="8">
                     <Button
+                        x:Name="BackToHome"
                         Width="200"
                         Height="40"
                         Background="Transparent"
                         BorderThickness="0"
+                        Click="BackToHome_Click"
                         Content="🏠 Back to Home"
                         FontSize="14"
                         Foreground="#FF333333" />

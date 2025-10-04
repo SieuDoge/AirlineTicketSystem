@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ubTjQN+rdu4=",
+  "dgSpecHash": "PNtnmUz0vzE=",
   "success": true,
-  "projectFilePath": "F:\\Project\\OOP-Project\\AirlineTicketSystem\\AirlineSystem\\AirlineSystem.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Chung\\OneDrive\\Tài liệu\\GitHub\\AirlineTicketSystem\\AirlineSystem\\AirlineSystem.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Chung\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Chung\\.nuget\\packages\\qrcoder\\1.6.0\\qrcoder.1.6.0.nupkg.sha512",
+    "C:\\Users\\Chung\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

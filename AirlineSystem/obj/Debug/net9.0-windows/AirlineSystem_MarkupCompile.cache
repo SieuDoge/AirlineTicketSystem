@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\
+C:\Users\Chung\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\
 AirlineSystem
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\App.xaml
-8-1672265663
+C:\Users\Chung\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineSystem\App.xaml
+11783330531
 
-20614205936
-200-1531957912
-BookTicket.xaml;Checkout.xaml;DataList.xaml;MainWindow.xaml;Manager.xaml;SelectionFlight.xaml;TeamMembers.xaml;TicketInfo.xaml;
+29126676837
+202-1544801734
+AddDialog.xaml;BookTicket.xaml;Checkout.xaml;DataList.xaml;EditDialog.xaml;MainWindow.xaml;Manager.xaml;Search.xaml;SelectionFlight.xaml;TeamMembers.xaml;TicketInfo.xaml;
 
 False
 

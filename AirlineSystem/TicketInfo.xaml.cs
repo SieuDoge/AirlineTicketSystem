@@ -1,5 +1,9 @@
 ﻿using AirlineTicketSystem;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using QRCoder;
+using System.IO;
+using System.Drawing;
 
 namespace AirlineSystem
 {
@@ -17,26 +21,76 @@ namespace AirlineSystem
             this.ticket = ticket;
             this.flight = flight;
             this.airlineManager = airlineManager;
-
-            // Generate and save seat number if not already assigned
             if (string.IsNullOrEmpty(ticket.Seat))
             {
                 ticket.Seat = GenerateSeatNumber(ticket.TicketTypeChar);
-                SaveData(); // Save the updated ticket with seat number
+                SaveData();
             }
-
             this.DataContext = new TicketViewModel(passenger, flight, ticket);
+            GenerateQRCode();
         }
 
-        // Move seat number generation to a separate method
+        private string GetQRCodeData()
+        {
+            return $"TICKET_ID:{ticket.TicketId}|" +                   
+                   $"PASSENGER:{passenger.Name}|" +                    
+                   $"FLIGHT:{flight.FlightNumber}|" +                   
+                   $"ROUTE:{flight.Departure}-{flight.Destination}|" +  
+                   $"DATE:{flight.DepartureTime:yyyy-MM-dd}|" +        
+                   $"TIME:{flight.DepartureTime:HH:mm}|" +            
+                   $"SEAT:{ticket.Seat}|" +                             
+                   $"CLASS:{ticket.TicketTypeName}";                   
+        }
+
+        private void GenerateQRCode()
+        {
+            try
+            {
+                string qrData = GetQRCodeData(); 
+                using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+                {
+                    QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
+                    using (QRCode qrCode = new QRCode(qrCodeData))
+                    {
+                        Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.Black, Color.White, true);
+                        BitmapImage bitmapImage = BitmapToBitmapImage(qrCodeImage);
+                        QRCodeImage.Source = bitmapImage;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error generating QR code: {ex.Message}", "QR Code Error",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private BitmapImage BitmapToBitmapImage(Bitmap bitmap)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Png);
+                memory.Position = 0;
+
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+
+                return bitmapImage;
+            }
+        }
+
         private string GenerateSeatNumber(char ticketType)
         {
             Random random = new Random();
             return ticketType switch
             {
-                'f' => $"{random.Next(1, 10)}{(char)('A' + random.Next(0, 4))}", // First class: rows 1-9
-                'b' => $"{random.Next(10, 30)}{(char)('A' + random.Next(0, 6))}", // Business: rows 10-29
-                _ => $"{random.Next(30, 60)}{(char)('A' + random.Next(0, 6))}"   // Economy: rows 30-59
+                'f' => $"{random.Next(1, 10)}{(char)('A' + random.Next(0, 4))}",
+                'b' => $"{random.Next(10, 30)}{(char)('A' + random.Next(0, 6))}",
+                _ => $"{random.Next(30, 60)}{(char)('A' + random.Next(0, 6))}"
             };
         }
 
@@ -51,30 +105,15 @@ namespace AirlineSystem
             public DateTime DepartureTimePlus3 => Flight.DepartureTime.AddHours(3);
             public DateTime Boarding => Flight.DepartureTime.AddHours(-1);
 
-            public string TicketClassName
-            {
-                get
-                {
-                    return Ticket.TicketTypeChar switch
-                    {
-                        'e' => "Economy",
-                        'b' => "Business",
-                        'f' => "First Class",
-                        _ => "Economy"
-                    };
-                }
-            }
-
-            // Use the saved seat number from ticket
+            public string TicketClassName => Ticket.TicketTypeName;
             public string SeatNumber => Ticket.Seat;
 
-            // Not use
             private Random random = new Random();
             public string GenerateGate
             {
                 get
                 {
-                    char gateLetter = (char)('A' + random.Next(0, 5)); // A-E
+                    char gateLetter = (char)('A' + random.Next(0, 5));
                     int gateNumber = random.Next(1, 20);
                     return $"{gateLetter}{gateNumber}";
                 }
@@ -95,30 +134,23 @@ namespace AirlineSystem
                 string flightFile = @"..\..\..\UserData\FlightData.csv";
                 string ticketFile = @"..\..\..\UserData\TicketData.csv";
                 string allDataFile = @"..\..\..\UserData\AirlineData.csv";
-                string Passenger = @"..\..\..\UserData\Passenger.csv";
+                string passengerFile = @"..\..\..\UserData\Passenger.csv";
 
                 airlineManager.ExportAirlineData(allDataFile);
                 airlineManager.ExportTicketsToCsv(ticketFile);
                 airlineManager.ExportFlightsToCsv(flightFile);
-                airlineManager.ExportPassengerToCsv(Passenger);
+                airlineManager.ExportPassengerToCsv(passengerFile);
             }
             catch (Exception ex)
             {
-                // Log error but don't stop the process
                 Console.WriteLine($"Error saving data: {ex.Message}");
             }
-        }
-
-        private void WireUpEvents()
-        {
-
         }
 
         private void EmailTicket_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                // In a real application, you would implement email functionality
                 MessageBox.Show($"Ticket has been sent to {passenger.Email}", "Email Sent",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -133,7 +165,6 @@ namespace AirlineSystem
         {
             try
             {
-                // In a real application, you would generate and save a PDF
                 MessageBox.Show("PDF ticket has been downloaded to your Downloads folder", "PDF Downloaded",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
