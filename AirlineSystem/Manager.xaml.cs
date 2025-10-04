@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace AirlineSystem
 {
-    /// <summary>
-    /// Interaction logic for Manager.xaml
-    /// </summary>
+
     public partial class Manager : UserControl
     {
         private Passenger passenger;

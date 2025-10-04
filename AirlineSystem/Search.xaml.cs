@@ -270,9 +270,9 @@ namespace AirlineSystem
                 string passengerFile = @"..\..\..\UserData\Passenger.csv";
                 string allDataFile = @"..\..\..\UserData\AirlineData.csv";
 
-                airlineManager.ExportFlightsToCSV(flightFile);
-                airlineManager.ExportTicketsToCSV(ticketFile);
-                airlineManager.ExportPassengerToCSV(passengerFile);
+                airlineManager.ExportFlightsToCsv(flightFile);
+                airlineManager.ExportTicketsToCsv(ticketFile);
+                airlineManager.ExportPassengerToCsv(passengerFile);
                 airlineManager.ExportAirlineData(allDataFile);
             }
             catch (Exception ex)

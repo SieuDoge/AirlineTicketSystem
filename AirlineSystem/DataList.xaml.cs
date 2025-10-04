@@ -50,7 +50,9 @@ namespace AirlineSystem
             SearchPlaceholder.Text = "🔍 Search flights...";
             AddNewButton.Content = "➕ Add Flight";
         }
-
+/// <summary>
+/// // x:Name="MainDataGrid" 
+/// </summary>
         private void SetupPassengerUI()
         {
             HeaderIcon.Text = "👤";
@@ -58,8 +60,8 @@ namespace AirlineSystem
             HeaderSubtitle.Text = "Manage and view all passenger information";
             SearchPlaceholder.Text = "🔍 Search passengers...";
             AddNewButton.Content = "➕ Add Passenger";
-
-            MainDataGrid.Columns.Clear();
+            
+            MainDataGrid.Columns.Clear(); // x:Name="MainDataGrid"
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Full Name", Binding = new System.Windows.Data.Binding("Name"), Width = 200 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Email", Binding = new System.Windows.Data.Binding("Email"), Width = 200 });
             MainDataGrid.Columns.Add(new DataGridTextColumn { Header = "Phone", Binding = new System.Windows.Data.Binding("PhoneNumber"), Width = 150 });
@@ -200,7 +202,7 @@ namespace AirlineSystem
             if (dialog.ShowDialog() == true)
             {
                 LoadData();
-                airlineManager.SaveFlightsToCsv(@"..\..\..\UserData\FlightData.csv");   // lưu lại
+                airlineManager.ExportFlightsToCsv(@"..\..\..\UserData\FlightData.csv");   // lưu lại
             }
         }
 
@@ -211,7 +213,7 @@ namespace AirlineSystem
             if (dialog.ShowDialog() == true)
             {
                 LoadData();
-                airlineManager.SavePassengersToCsv(@"..\..\..\UserData\Passenger.csv"); // lưu lại
+                airlineManager.ExportPassengerToCsv(@"..\..\..\UserData\Passenger.csv"); // lưu lại
             }
         }
 
@@ -223,8 +225,8 @@ namespace AirlineSystem
             if (dialog.ShowDialog() == true)
             {
                 LoadData();
-                airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");   // lưu lại
-                airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv"); // đồng bộ booking
+                airlineManager.ExportTicketsToCsv(@"..\..\..\UserData\TicketData.csv");   // lưu lại
+                airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv"); // đồng bộ booking
             }
         }
 
@@ -237,8 +239,8 @@ namespace AirlineSystem
                 airlineManager.Flights.Remove(flight);
 
                 // Lưu lại CSV
-                airlineManager.SaveFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
-                airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
+                airlineManager.ExportFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
+                airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv");
 
                 LoadData();
                 MessageBox.Show($"Flight {flight.FlightNumber} has been deleted successfully.",
@@ -272,13 +274,13 @@ namespace AirlineSystem
 
                     // Xóa hết vé liên quan
                     airlineManager.Tickets.RemoveAll(t => t.PassengerPhone == passenger.PhoneNumber);
-                    airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
-                    airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
+                    airlineManager.ExportTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
+                    airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv");
                 }
 
                 // Xóa passenger
                 airlineManager.Passengers.Remove(passenger);
-                airlineManager.SavePassengersToCsv(@"..\..\..\UserData\Passenger.csv");
+                airlineManager.ExportPassengerToCsv(@"..\..\..\UserData\Passenger.csv");
 
                 LoadData();
                 MessageBox.Show($"Passenger {passenger.Name} has been deleted successfully.",
@@ -301,8 +303,8 @@ namespace AirlineSystem
                 airlineManager.Tickets.Remove(ticket);
 
                 // Lưu lại CSV
-                airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
-                airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
+                airlineManager.ExportTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
+                airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv");
 
                 LoadData();
                 MessageBox.Show($"Ticket {ticket.TicketId} has been deleted successfully.",

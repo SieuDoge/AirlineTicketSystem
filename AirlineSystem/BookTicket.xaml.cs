@@ -9,7 +9,6 @@ namespace AirlineSystem
         private AirlineManager airlineManager;
         private Flight selectedFlight;
 
-        // THAY ĐỔI: Constructor nhận airlineManager từ MainWindow
         public BookTicket(AirlineManager manager)
         {
             InitializeComponent();

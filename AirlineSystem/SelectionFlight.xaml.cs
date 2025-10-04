@@ -1,10 +1,7 @@
 ﻿using AirlineTicketSystem;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
-using System.Windows.Markup;
-using System.Windows.Media.Media3D;
+
 
 namespace AirlineSystem
 {

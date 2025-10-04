@@ -121,8 +121,8 @@ namespace AirlineSystem
                     if (flight.BookSeat())
                     {
                         // Add passenger and ticket to manager
-                        airlineManager.addPassenger(passenger);
-                        airlineManager.addTicket(ticket);
+                        airlineManager.AddPassenger(passenger);
+                        airlineManager.AddTicket(ticket);
 
                         // Save data
                         // SaveData();
@@ -210,8 +210,8 @@ namespace AirlineSystem
 
 
                 airlineManager.ExportAirlineData(allDataFile);
-                airlineManager.ExportTicketsToCSV(ticketFile);
-                airlineManager.ExportFlightsToCSV(flightFile);
+                airlineManager.ExportTicketsToCsv(ticketFile);
+                airlineManager.ExportFlightsToCsv(flightFile);
             }
             catch (Exception ex)
             {

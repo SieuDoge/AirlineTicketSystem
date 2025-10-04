@@ -20,7 +20,7 @@ namespace AirlineSystem
 
         private void BuildForm()
         {
-            ContentPanel.Children.Clear();
+            ContentPanel.Children.Clear(); // xóa hết control đang có sẵn → đảm bảo mỗi lần build lại form thì form sạch, không bị chồng control cũ.
 
             if (dataType == "Flight")
             {
@@ -88,8 +88,8 @@ namespace AirlineSystem
                     int seats = int.Parse(GetValue("Seats"));
 
                     var flight = new Flight(number, departure, destination, time, seats, Flight.FlightStatus.Scheduled);
-                    airlineManager.addFlight(flight);
-                    airlineManager.SaveFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
+                    airlineManager.AddFlight(flight);
+                    airlineManager.ExportFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
                 }
                 else if (dataType == "Passenger")
                 {
@@ -100,8 +100,8 @@ namespace AirlineSystem
                     char gender = GetValue("Gender")[0];
 
                     var passenger = new Passenger(name, email, gender, age, phone);
-                    airlineManager.addPassenger(passenger);
-                    airlineManager.SavePassengersToCsv(@"..\..\..\UserData\Passenger.csv");
+                    airlineManager.AddPassenger(passenger);
+                    airlineManager.ExportPassengerToCsv(@"..\..\..\UserData\Passenger.csv");
                 }
                 else if (dataType == "Ticket")
                 {
@@ -127,9 +127,9 @@ namespace AirlineSystem
 
                     if (t != null)
                     {
-                        airlineManager.addTicket(t);
-                        airlineManager.SaveTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
-                        airlineManager.SaveAirlineDataToCsv(@"..\..\..\UserData\AirlineData.csv");
+                        airlineManager.AddTicket(t);
+                        airlineManager.ExportTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
+                        airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv");
                     }
                 }
 

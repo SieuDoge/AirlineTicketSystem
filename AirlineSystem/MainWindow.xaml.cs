@@ -13,7 +13,7 @@ namespace AirlineSystem
             InitializeComponent();
             manager = new AirlineManager();
             LoadAllData();
-            WireUpSearchButton(); // Add this line
+            WireUpSearchButton();
         }
 
         private void LoadAllData()
@@ -24,10 +24,13 @@ namespace AirlineSystem
             string allDataFile = @"..\..\..\UserData\AirlineData.csv";
 
             // Import in correct order
-            manager.ImportFlightsFromCSV(flightFile);
-            manager.ImportPassengerFormCSV(passengerFile);
-            manager.ImportTicketsFromCSV(ticketFile);
-            manager.importFormExcel(allDataFile);
+            manager.ImportFlightsFromCsv(flightFile);
+            manager.ImportPassengerFormCsv(passengerFile);
+            manager.ImportTicketsFromCsv(ticketFile);
+            manager.ImportFormExcel(allDataFile);
+
+            // Update flight statuses based on current time
+            manager.UpdateFlightStatuses();
 
             Console.WriteLine($"Loaded: {manager.GetTotalFlights()} flights, {manager.GetTotalPassengers()} passengers, {manager.GetTotalTickets()} tickets");
         }
