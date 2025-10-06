@@ -5,7 +5,7 @@ using System.Linq;
 using AirlineTicketSystem;
 using static AirlineTicketSystem.Flight;
 
-namespace AirlineTicketSystem
+namespace AirlineSystem
 {
     public class AirlineManager
     {
@@ -19,7 +19,7 @@ namespace AirlineTicketSystem
 
         /// <summary>
         /// Method Get Total tất cả các mục
-        /// </summary>
+        /// </summary>s
         public int GetTotalFlights() => flights.Count;
 
         public int GetTotalPassengers() => passengers.Count;
@@ -395,26 +395,26 @@ namespace AirlineTicketSystem
             }
         }
 
-        private Flight.FlightStatus DetermineFlightStatus(Flight flight, DateTime currentTime)
+        private FlightStatus DetermineFlightStatus(Flight flight, DateTime currentTime)
         {
             var departureTime = flight.GetDepartureTime();
             var arrivalTime = flight.ArrivalTime; // 3 hours after departure
 
             // If flight is cancelled, keep it cancelled
-            if (flight.Status == Flight.FlightStatus.Cancelled)
-                return Flight.FlightStatus.Cancelled;
+            if (flight.Status == FlightStatus.Cancelled)
+                return FlightStatus.Cancelled;
 
             // If current time is before departure time, it's still scheduled
             if (currentTime < departureTime)
-                return Flight.FlightStatus.Scheduled;
+                return FlightStatus.Scheduled;
 
             // If current time is between departure and arrival (3 hours), it's ongoing
             if (currentTime >= departureTime && currentTime < arrivalTime)
-                return Flight.FlightStatus.OnGoing;
+                return FlightStatus.OnGoing;
 
             // If current time is after arrival + 3 hours, it's completed
             if (currentTime >= arrivalTime)
-                return Flight.FlightStatus.Completed;
+                return FlightStatus.Completed;
 
             return flight.Status; // Keep current status if no condition matches
         }

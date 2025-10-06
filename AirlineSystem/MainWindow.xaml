@@ -379,7 +379,7 @@
                                         FontSize="20"
                                         FontWeight="Bold"
                                         Foreground="#FF4A90E2"
-                                        Text="24" />
+                                        Text="36" />
                                     <TextBlock
                                         HorizontalAlignment="Center"
                                         FontSize="10"

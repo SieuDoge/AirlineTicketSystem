@@ -177,8 +177,7 @@ namespace AirlineSystem
 
         private void BackToHome_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Window.GetWindow(this) as MainWindow;
-            mainWindow?.BackToMenu();
+            this.Close();
         }
     }
 }

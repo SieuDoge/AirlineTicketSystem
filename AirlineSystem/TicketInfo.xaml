@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Ticket Information"
     Width="540"
-    Height="800">
+    Height="804">
 
     <Grid
         Height="912"
@@ -25,10 +25,9 @@
             Fill="#4CAF50"
             Opacity="0.1" />
         <ScrollViewer
-            Margin="0,0,0,130"
             HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto">
-            <StackPanel MaxWidth="600" Margin="45,16,45,16">
+            VerticalScrollBarVisibility="Auto" Height="782" VerticalAlignment="Top">
+            <StackPanel MaxWidth="600" Margin="45,16,45,16" Height="1213">
 
                 <!--  Success Header  -->
                 <StackPanel
