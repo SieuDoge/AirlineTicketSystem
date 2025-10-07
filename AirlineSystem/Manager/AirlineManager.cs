@@ -7,7 +7,7 @@ using static AirlineTicketSystem.Flight;
 
 namespace AirlineSystem
 {
-    public class AirlineManager
+    public class AirlineManager 
     {
         private List<Flight> flights;
         private List<Passenger> passengers;
