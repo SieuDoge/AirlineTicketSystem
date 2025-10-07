@@ -20,7 +20,7 @@ namespace AirlineSystem
 
         private void BuildForm()
         {
-            ContentPanel.Children.Clear(); // xóa hết control đang có sẵn → đảm bảo mỗi lần build lại form thì form sạch, không bị chồng control cũ.
+            ContentPanel.Children.Clear();
 
             if (dataType == "Flight")
             {
@@ -33,8 +33,11 @@ namespace AirlineSystem
                 ContentPanel.Children.Add(new TextBlock { Text = "Destination:" });
                 ContentPanel.Children.Add(new TextBox { Tag = "Destination" });
 
-                ContentPanel.Children.Add(new TextBlock { Text = "Departure Time:" });
-                ContentPanel.Children.Add(new DatePicker { SelectedDate = DateTime.Now, Tag = "DepartureTime" });
+                ContentPanel.Children.Add(new TextBlock { Text = "Departure Date:" });
+                ContentPanel.Children.Add(new DatePicker { SelectedDate = DateTime.Now, Tag = "DepartureDate" });
+
+                ContentPanel.Children.Add(new TextBlock { Text = "Departure Time (HH:mm):" });
+                ContentPanel.Children.Add(new TextBox { Text = DateTime.Now.ToString("HH:mm"), Tag = "DepartureTimeOnly" });
 
                 ContentPanel.Children.Add(new TextBlock { Text = "Available Seats:" });
                 ContentPanel.Children.Add(new TextBox { Tag = "Seats" });
@@ -74,63 +77,21 @@ namespace AirlineSystem
             }
         }
 
-
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (dataType == "Flight")
                 {
-                    string number = GetValue("FlightNumber");
-                    string departure = GetValue("Departure");
-                    string destination = GetValue("Destination");
-                    DateTime time = (ContentPanel.Children[3] as DatePicker)?.SelectedDate ?? DateTime.Now;
-                    int seats = int.Parse(GetValue("Seats"));
-
-                    var flight = new Flight(number, departure, destination, time, seats, Flight.FlightStatus.Scheduled);
-                    airlineManager.AddFlight(flight);
-                    airlineManager.ExportFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
+                    AddFlight();
                 }
                 else if (dataType == "Passenger")
                 {
-                    string name = GetValue("Name");
-                    string email = GetValue("Email");
-                    string phone = GetValue("PhoneNumber");
-                    int age = int.Parse(GetValue("Age"));
-                    char gender = GetValue("Gender")[0];
-
-                    var passenger = new Passenger(name, email, gender, age, phone);
-                    airlineManager.AddPassenger(passenger);
-                    airlineManager.ExportPassengerToCsv(@"..\..\..\UserData\Passenger.csv");
+                    AddPassenger();
                 }
                 else if (dataType == "Ticket")
                 {
-                    string phone = GetValue("PassengerPhone");
-                    string flightNum = GetValue("FlightNumber");
-                    string typeText = (ContentPanel.Children[2] as ComboBox)?.SelectedItem.ToString();
-                    char ticketType = typeText.Contains("(b)") ? 'b' :
-                                      typeText.Contains("(f)") ? 'f' : 'e';
-
-                    var passenger = airlineManager.Passengers.FirstOrDefault(p => p.PhoneNumber == phone);
-                    var flight = airlineManager.Flights.FirstOrDefault(f => f.FlightNumber == flightNum);
-
-                    if (passenger == null || flight == null)
-                        throw new Exception("Invalid passenger phone or flight number");
-
-                    Ticket t = ticketType switch
-                    {
-                        'e' => new EconomyTicket(passenger, flight),
-                        'b' => new BusinessTicket(passenger, flight),
-                        'f' => new FirstClassTicket(passenger, flight),
-                        _ => null
-                    };
-
-                    if (t != null)
-                    {
-                        airlineManager.AddTicket(t);
-                        airlineManager.ExportTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
-                        airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv");
-                    }
+                    AddTicket();
                 }
 
                 this.DialogResult = true;
@@ -138,13 +99,93 @@ namespace AirlineSystem
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding: {ex.Message}]\n" +
-                                $"Or you dont have permi");
+                MessageBox.Show($"Error adding: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private string GetValue(string tag) =>
-            (ContentPanel.Children.OfType<FrameworkElement>().FirstOrDefault(c => (string)c.Tag == tag) as TextBox)?.Text ?? "";
+        private void AddFlight()
+        {
+            string number = GetValue("FlightNumber");
+            string departure = GetValue("Departure");
+            string destination = GetValue("Destination");
+
+            // Lấy ngày từ DatePicker
+            var datePicker = ContentPanel.Children.OfType<DatePicker>()
+                .FirstOrDefault(dp => (string)dp.Tag == "DepartureDate");
+            DateTime date = datePicker?.SelectedDate ?? DateTime.Now;
+
+            // Lấy giờ từ TextBox
+            string timeString = GetValue("DepartureTimeOnly");
+            TimeSpan time = TimeSpan.Parse(timeString);
+
+            // Kết hợp ngày + giờ
+            DateTime departureTime = date.Date + time;
+
+            int seats = int.Parse(GetValue("Seats"));
+
+            var flight = new Flight(number, departure, destination, departureTime, seats, Flight.FlightStatus.Scheduled);
+            airlineManager.AddFlight(flight);
+            airlineManager.ExportFlightsToCsv(@"..\..\..\UserData\FlightData.csv");
+        }
+
+        private void AddPassenger()
+        {
+            string name = GetValue("Name");
+            string email = GetValue("Email");
+            string phone = GetValue("PhoneNumber");
+            int age = int.Parse(GetValue("Age"));
+            char gender = GetValue("Gender")[0];
+
+            var passenger = new Passenger(name, email, gender, age, phone);
+            airlineManager.AddPassenger(passenger);
+            airlineManager.ExportPassengerToCsv(@"..\..\..\UserData\Passenger.csv");
+        }
+
+        private void AddTicket()
+        {
+            string phone = GetValue("PassengerPhone");
+            string flightNum = GetValue("FlightNumber");
+
+            var classCombo = ContentPanel.Children
+                .OfType<ComboBox>()
+                .FirstOrDefault(cb => (string)cb.Tag == "TicketType");
+
+            if (classCombo == null || classCombo.SelectedItem == null)
+                throw new Exception("Please select a ticket class");
+
+            string typeText = classCombo.SelectedItem.ToString();
+            char ticketType = typeText.Contains("(b)") ? 'b' :
+                              typeText.Contains("(f)") ? 'f' : 'e';
+
+            var passenger = airlineManager.Passengers.FirstOrDefault(p => p.PhoneNumber == phone);
+            var flight = airlineManager.Flights.FirstOrDefault(f => f.FlightNumber == flightNum);
+
+            if (passenger == null)
+                throw new Exception($"Passenger with phone {phone} not found");
+
+            if (flight == null)
+                throw new Exception($"Flight {flightNum} not found");
+
+            Ticket t = ticketType switch
+            {
+                'e' => new EconomyTicket(passenger, flight),
+                'b' => new BusinessTicket(passenger, flight),
+                'f' => new FirstClassTicket(passenger, flight),
+                _ => throw new Exception("Invalid ticket type")
+            };
+
+            airlineManager.AddTicket(t);
+            airlineManager.ExportTicketsToCsv(@"..\..\..\UserData\TicketData.csv");
+            airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv");
+        }
+
+        private string GetValue(string tag)
+        {
+            var textBox = ContentPanel.Children.OfType<FrameworkElement>()
+                .FirstOrDefault(c => (string)c.Tag == tag) as TextBox;
+            return textBox?.Text ?? "";
+        }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {

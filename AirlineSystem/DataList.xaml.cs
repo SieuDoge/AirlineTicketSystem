@@ -1,6 +1,8 @@
 ﻿using AirlineTicketSystem;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace AirlineSystem
 {
@@ -108,12 +110,21 @@ namespace AirlineSystem
             editBorder.SetValue(Border.MarginProperty, new Thickness(2));
 
             var editButton = new FrameworkElementFactory(typeof(Button));
-            editButton.SetValue(Button.ContentProperty, "✏️");
+            if (currentDataType == DataType.Tickets)
+            {
+                // Đổi chữ & tooltip khi đang ở trang "All Tickets"
+                editButton.SetValue(Button.ContentProperty, "👁 Show Ticket");
+                editButton.SetValue(Button.ToolTipProperty, "Open Ticket");
+            }
+            else
+            {
+                editButton.SetValue(Button.ContentProperty, "✏️ Edit");
+                editButton.SetValue(Button.ToolTipProperty, "Edit");
+            }
             editButton.SetValue(Button.BackgroundProperty, System.Windows.Media.Brushes.Transparent);
             editButton.SetValue(Button.ForegroundProperty, System.Windows.Media.Brushes.White);
             editButton.SetValue(Button.BorderThicknessProperty, new Thickness(0));
             editButton.SetValue(Button.PaddingProperty, new Thickness(6, 4, 6, 4));
-            editButton.SetValue(Button.ToolTipProperty, "Edit");
             editButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(EditButton_Click));
 
             editBorder.AppendChild(editButton);
@@ -220,14 +231,12 @@ namespace AirlineSystem
 
         private void EditTicket(Ticket ticket)
         {
-            if (ticket == null) return;
-            var dialog = new EditDialog(ticket) { Owner = Window.GetWindow(this) };
-            if (dialog.ShowDialog() == true)
-            {
-                LoadData();
-                airlineManager.ExportTicketsToCsv(@"..\..\..\UserData\TicketData.csv");   // lưu lại
-                airlineManager.ExportAirlineData(@"..\..\..\UserData\AirlineData.csv"); // đồng bộ booking
-            }
+    
+
+            string filePath = $@"..\..\..\UserData\QRCode\{ticket.TicketId}.png";
+
+            Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+
         }
 
         private void DeleteFlight(Flight flight)
