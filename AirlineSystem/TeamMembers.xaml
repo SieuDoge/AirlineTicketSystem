@@ -168,7 +168,7 @@
                                 FontSize="14"
                                 FontStyle="Italic"
                                 Foreground="#FF999999"
-                                Text="Project Manager,  Lead Develope, Frontend Developer" />
+                                Text="Project Manager, Frontend Developer" />
                         </StackPanel>
 
                         <!--  Crown Icon  -->

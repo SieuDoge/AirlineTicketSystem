@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="chit.png" />
     <None Remove="Image\plane.png" />
   </ItemGroup>
 
@@ -17,7 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="chit.png" />
     <Resource Include="Image\plane.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UserData\QRCode\" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,10 @@
 ﻿using AirlineTicketSystem;
-using System.Windows;
-using System.Windows.Media.Imaging;
 using QRCoder;
-using System.IO;
 using System.Drawing;
+using System.IO;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace AirlineSystem
 {
@@ -28,18 +29,71 @@ namespace AirlineSystem
             }
             this.DataContext = new TicketViewModel(passenger, flight, ticket);
             GenerateQRCode();
+            this.ContentRendered += TicketInfo_ContentRendered;
+        }
+        private void TicketInfo_ContentRendered(object sender, EventArgs e)
+        {
+            // Chụp ảnh ngay khi render xong
+            CaptureLayoutSnapshot();
+        }
+        private void CaptureLayoutSnapshot()
+        {
+            try
+            {
+                // Render toàn bộ content vào bitmap
+                var bitmap = new RenderTargetBitmap(
+                    (int)this.ActualWidth,
+                    (int)this.ActualHeight,
+                    96, 96,
+                    PixelFormats.Pbgra32
+                );
+
+                bitmap.Render(this);
+
+                // Lưu ảnh
+                SaveSnapshotImage(bitmap);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error capturing snapshot: {ex.Message}");
+            }
         }
 
+        private void SaveSnapshotImage(BitmapSource bitmap)
+        {
+            try
+            {
+                string folder = @"..\..\..\UserData\QRCode";
+                Directory.CreateDirectory(folder);
+
+                string fileName = $"{ticket.TicketId}.png";
+                string filePath = Path.Combine(folder, fileName);
+
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmap));
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    encoder.Save(stream);
+                }
+
+                Console.WriteLine($"Snapshot saved: {filePath}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving snapshot: {ex.Message}");
+            }
+        }
         private string GetQRCodeData()
         {
-            return $"TICKET_ID:{ticket.TicketId}|" +                   
-                   $"PASSENGER:{passenger.Name}|" +                    
-                   $"FLIGHT:{flight.FlightNumber}|" +                   
-                   $"ROUTE:{flight.Departure}-{flight.Destination}|" +  
-                   $"DATE:{flight.DepartureTime:yyyy-MM-dd}|" +        
-                   $"TIME:{flight.DepartureTime:HH:mm}|" +            
-                   $"SEAT:{ticket.Seat}|" +                             
-                   $"CLASS:{ticket.TicketTypeName}";                   
+            return $"TICKET_ID: {ticket.TicketId}\n" +                   
+                   $"PASSENGER: {passenger.Name}\n" +                    
+                   $"FLIGHT:    {flight.FlightNumber}\n" +                   
+                   $"ROUTE: {flight.Departure}-{flight.Destination}\n" +  
+                   $"DATE:  {flight.DepartureTime:yyyy-MM-dd}\n" +        
+                   $"TIME:  {flight.DepartureTime:HH:mm}\n" +            
+                   $"SEAT:  {ticket.Seat}\n" +                             
+                   $"CLASS: {ticket.TicketTypeName}\n";                   
         }
 
         private void GenerateQRCode()
@@ -52,7 +106,7 @@ namespace AirlineSystem
                     QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrData, QRCodeGenerator.ECCLevel.Q);
                     using (QRCode qrCode = new QRCode(qrCodeData))
                     {
-                        Bitmap qrCodeImage = qrCode.GetGraphic(20, Color.Black, Color.White, true);
+                        Bitmap qrCodeImage = qrCode.GetGraphic(20, System.Drawing.Color.Black, System.Drawing.Color.White, true);
                         BitmapImage bitmapImage = BitmapToBitmapImage(qrCodeImage);
                         QRCodeImage.Source = bitmapImage;
                     }
