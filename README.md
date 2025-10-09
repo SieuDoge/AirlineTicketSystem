@@ -53,7 +53,6 @@
 - [Testing](#-testing)
 - [Roadmap](#-roadmap)
 - [Contributors](#-contributors)
-- [License](#-license)
 
 ---
 
@@ -446,12 +445,6 @@ public class Flight : ISearchable, IExportable
 - **Notifications:** Email/SMS notifications are not implemented  
 - **Platform:** Windows-only (WPF limitation)  
 - **Language:** UI is in English only  
-
----
-
-## 📝 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
