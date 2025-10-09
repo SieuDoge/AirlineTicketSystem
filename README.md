@@ -461,7 +461,8 @@ public class Flight : ISearchable, IExportable
 ## 📞 Contact & Support
 
 - **Email:** 24110021@student.hcmute.edu.vn (Nguyễn Hữu Huynh)
-- **Facebook:** <a href="www.facebook.com/100035465479930" target="_blank">Open Facebook 🔗</a>
+- **Facebook:** <a href="https://www.facebook.com/100035465479930" target="_blank">Open Facebook 🔗</a>
+
 
 
 ---
