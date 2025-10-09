@@ -193,7 +193,7 @@ dotnet run --project AirlineSystem
 └─────────────────────────────────────────────────────────────┘
 ```
 
-![System Diagram]([github.com/SieuDoge/AirlineTicketSystem/blob/main/AirlineSystem/Screenshot/class.png?raw=true](https://raw.githubusercontent.com/SieuDoge/AirlineTicketSystem/refs/heads/main/AirlineSystem/Screenshot/class.png))
+![System Diagram](https://raw.githubusercontent.com/SieuDoge/AirlineTicketSystem/refs/heads/main/AirlineSystem/Screenshot/class.png)
 
 
 ## 🎓 OOP Principles Applied
