@@ -80,3 +80,13 @@ C:\Users\Chung\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineSystem\o
 C:\Users\Chung\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\AirlineSystem.csproj.AssemblyReference.cache
 C:\Users\Chung\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineSystem\bin\Debug\net9.0-windows\QRCoder.dll
 C:\Users\Chung\OneDrive\Tài liệu\GitHub\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\AirlineS.8E9445C5.Up2Date
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\bin\Debug\net9.0-windows\QRCoder.dll
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\AirlineSystem.csproj.AssemblyReference.cache
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\AddDialog.baml
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\EditDialog.baml
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\AddDialog.g.cs
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\EditDialog.g.cs
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\Search.g.cs
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\Search.baml
+F:\Project\OOP-Project\AirlineTicketSystem\AirlineSystem\obj\Debug\net9.0-windows\AirlineS.8E9445C5.Up2Date

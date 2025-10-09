@@ -18,8 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="chit.png" />
     <Resource Include="Image\plane.png" />
+    <None Remove="Image\Chung.png" />
+    <Resource Include="Image\chung.png" />
+    <None Remove="Image\Cuong.png" />
+    <Resource Include="Image\cuong.png" />
+    <None Remove="Image\Huy.png" />
+    <Resource Include="Image\huy.png" />
+    <None Remove="Image\Huynh.png" />
+    <Resource Include="Image\huynh.png" />
   </ItemGroup>
 
   <ItemGroup>
