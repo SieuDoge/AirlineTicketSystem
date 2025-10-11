@@ -9,6 +9,11 @@
 
 **Nhóm 07**
 
+Note: Bài này nhóm mình được thầy chấm 9 điểm 
+      - các bạn nên làm thêm lớp con cho flight là nội địa vối ngoại địa
+      - thêm login/register
+      - sửa payment thành interface thay vì class
+
 ---
 
 ## 👥 Thành viên nhóm
