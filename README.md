@@ -481,7 +481,7 @@ Give a ⭐️ if this project helped you learn **OOP concepts** or **WPF develop
 <div align="center">
 
 Made with ❤️ by **Group 07**  
-**HCMUTE — 2024/2025**  
+**HCMUTE — 2025/2026**  
 
 ⬆ [Back to Top](#)
 
