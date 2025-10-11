@@ -10,7 +10,7 @@
 **Nhóm 07**
 
 Note: Bài này nhóm mình được thầy chấm 9 điểm 
-      - các bạn nên làm thêm lớp con cho flight là nội địa vối ngoại địa
+      - các bạn nên làm thêm lớp con cho flight là nội địa với ngoại địa
       - thêm login/register
       - sửa payment thành interface thay vì class
 
@@ -425,7 +425,7 @@ public class Flight : ISearchable, IExportable
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://github.com/SieuDoge/AirlineTicketSystem/blob/main/AirlineSystem/Image/plane.png?raw=true" width="100px;" alt="Nguyễn Văn Trường Sa"/><br />
+        <img src="https://github.com/SieuDoge/AirlineTicketSystem/blob/main/AirlineSystem/Image/sa.png?raw=true" width="100px;" alt="Nguyễn Văn Trường Sa"/><br />
         <sub><b>Nguyễn Văn Trường Sa</b></sub><br />
         <sub>24110317</sub>
       </a>
